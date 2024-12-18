@@ -6,7 +6,7 @@
 /*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2024/12/18 16:39:19 by kaykin           ###   ########.fr       */
+/*   Updated: 2024/12/18 17:31:42 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ void    free_words(char **words)
     }
     return ;
 }
+/*
+    Meta dataların kontrolünü yapıyoruz. 6 tane olup olmadığını ve ulaşılabilir ve
+    okunabilir olup olmadığını kontrol ediyoruz.
+*/
 
 void    check_meta_data(t_data *data)
 {
@@ -109,8 +113,9 @@ void    check_meta_data(t_data *data)
             error_handler(data, "Missing or repeated elements");
         if (access(data->meta_data[i], F_OK | R_OK) != 0)
             error_handler(data, "Non-existing or unreadable file");
-        if ()
+        i++;
     }
+    return ;
 }
 
 /*
@@ -158,10 +163,8 @@ void    parser(t_data *data, char *av)
         count++;
         free_words(words);
     }
-    if (count != 7 && check_meta_data(data))
-    {
-        
-    }
+    if (count != 7)
+        check_meta_data(data);
 }
 
 int main(int ac, char *av[])
