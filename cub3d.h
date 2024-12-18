@@ -6,15 +6,18 @@
 /*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2024/12/18 12:08:04 by kaykin           ###   ########.fr       */
+/*   Updated: 2024/12/18 15:45:17 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 #define CUB3D_H
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdio.h> // printf
+#include <stdlib.h> //malloc-exit
+#include <stddef.h> //NULL
+#include "libft.h"
+#include <fcntl.h>
 
 typedef struct s_data
 {
@@ -33,6 +36,7 @@ typedef struct s_data
     int		bits_per_pixel; //32
 	int		size_line;
 } t_data;
+
 
 
 #endif
