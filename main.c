@@ -6,7 +6,7 @@
 /*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2024/12/18 12:21:19 by kaykin           ###   ########.fr       */
+/*   Updated: 2024/12/18 12:31:43 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,15 @@ int arg_check(int ac, char *av[])
     )
     return (0);
 }
+
+int	error_handler(t_data *data, char *msg)
+{
+	if (msg != NULL)
+		ft_putendl_fd(msg, 2);
+	free(msg);
+	return (1);
+}
+
 
 int main(int ac, char *av[])
 {
