@@ -6,7 +6,7 @@
 /*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2024/12/18 16:02:34 by kaykin           ###   ########.fr       */
+/*   Updated: 2024/12/18 16:39:19 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void parser(void)
     get_map();
     map_check();
 }
+
+/*
+    Argümanların kontrolü
+*/
 
 int arg_check(int ac, char *av[])
 {
@@ -32,19 +36,36 @@ int arg_check(int ac, char *av[])
     return (0);
 }
 
-int	error_handler(t_data data, char *msg)
+/*
+    Error handler, mesajı yazdırıp datayı freeleyip exit atıp programı kapatıyoruz
+*/
+
+int	error_handler(t_data *data, char *msg)
 {
 	if (msg != NULL)
+    {
+        ft_putendl_fd("Error", 2);
 		ft_putendl_fd(msg, 2);
+    }
 	free(msg);
-	return (1);
+    //freedata
+    exit(1);
+	//return (1);
 }
+
+/*
+    Initialize
+*/
 
 void    init(t_data data)
 {
     char *meta[6];
     data.meta_data = meta;
 }
+
+/*
+    Bütün whitespace'leri space ile değiştiriyoruz.
+*/
 
 void    replace_white_s_with_s(char *str)
 {
@@ -61,7 +82,63 @@ void    replace_white_s_with_s(char *str)
     return ;
 }
 
-void    parser(t_data data, char *av)
+/*
+    Wordslerle işimiz bitince freeliyoruz.
+*/
+void    free_words(char **words)
+{
+    int i;
+    
+    i = 0;
+    while (words[i])
+    {
+        free(words[i]);
+        i++;
+    }
+    return ;
+}
+
+void    check_meta_data(t_data *data)
+{
+    int i;
+
+    i = 0;
+    while (i < 6)
+    {
+        if (data->meta_data[i] == NULL)
+            error_handler(data, "Missing or repeated elements");
+        if (access(data->meta_data[i], F_OK | R_OK) != 0)
+            error_handler(data, "Non-existing or unreadable file");
+        if ()
+    }
+}
+
+/*
+    Split ile gelen words'leri ilkine bakıp identifier mı diye kontrol ettik.
+    Oyleyse bir sonraki wordü data->meta_data'nın uygun yerine koyuyoruz.
+*/
+void    get_element(t_data *data, char **str)
+{
+    int i;
+
+    i = 0;
+    if(str[0][0] == 'N' && str[0][1] == 'O' && str[0][2] == NULL)
+        data->meta_data[NO] = str[1];
+    else if(str[0][0] == 'S' && str[0][1] == 'O' && str[0][2] == NULL)
+        data->meta_data[SO] = str[1];
+    else if(str[0][0] == 'W' && str[0][1] == 'E' && str[0][2] == NULL)
+        data->meta_data[WE] = str[1];
+    else if(str[0][0] == 'E' && str[0][1] == 'A' && str[0][2] == NULL)
+        data->meta_data[EA] = str[1];
+    else if(str[0][0] == 'F' && str[0][1] == NULL)
+        data->meta_data[F] = str[1];
+    else if(str[0][0] == 'C' && str[0][1] == NULL)
+        data->meta_data[C] = str[1];
+    if (str[2] != NULL)
+        error_handler(data, "Excessive information");
+}
+
+void    parser(t_data *data, char *av)
 {
     int     fd;
     int     count;
@@ -79,16 +156,12 @@ void    parser(t_data data, char *av)
             continue ;
         get_element(data, words);
         count++;
-    }   
-}
-
-void    get_element(t_data data, char **str)
-{
-    int i;
-
-    i = 0;
-    if(str[0][0] == 'S' && str[0][1] == 'O' && str[0][2] == NULL)
+        free_words(words);
+    }
+    if (count != 7 && check_meta_data(data))
+    {
         
+    }
 }
 
 int main(int ac, char *av[])
@@ -97,7 +170,7 @@ int main(int ac, char *av[])
     if (arg_check(ac, av))
         return (1);
     init();
-    parser(data, av[1]);
+    parser(&data, av[1]);
     mlx_handle();
     init_win();
     prep_map_for_rc();

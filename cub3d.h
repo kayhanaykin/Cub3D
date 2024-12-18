@@ -6,7 +6,7 @@
 /*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2024/12/18 15:45:17 by kaykin           ###   ########.fr       */
+/*   Updated: 2024/12/18 16:06:19 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ typedef struct s_data
 	int		size_line;
 } t_data;
 
-
+enum Identifiers
+{
+    NO,
+    SO,
+    WE,
+    EA,
+    F,
+    C
+}
 
 #endif
