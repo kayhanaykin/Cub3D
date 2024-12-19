@@ -6,7 +6,7 @@
 /*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2024/12/18 16:06:19 by kaykin           ###   ########.fr       */
+/*   Updated: 2024/12/19 14:38:26 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 typedef struct s_data
 {
     char    **meta_data;
-    int     **map_data;
+    char    **map_data;
     void	*mlx_ptr;
 	void	*win_ptr;
 	void	*img_ptr;
@@ -35,6 +35,8 @@ typedef struct s_data
     float   pos_angle;
     int		bits_per_pixel; //32
 	int		size_line;
+    int     line_count;
+    int     max_line_length;
 } t_data;
 
 enum Identifiers

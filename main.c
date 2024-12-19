@@ -6,18 +6,11 @@
 /*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2024/12/18 17:31:42 by kaykin           ###   ########.fr       */
+/*   Updated: 2024/12/19 14:58:11 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void parser(void) 
-{
-    get_meta();
-    get_map();
-    map_check();
-}
 
 /*
     Argümanların kontrolü
@@ -143,14 +136,34 @@ void    get_element(t_data *data, char **str)
         error_handler(data, "Excessive information");
 }
 
-void    parser(t_data *data, char *av)
+void    get_map_size(t_data *data, int fd)
 {
-    int     fd;
+    char    *line;
+    int     i;
+
+    line = malloc(1);
+    while (line)
+    {
+        line = get_next_line(fd);
+        data->line_count++;
+        if (ft_strlen(line) > data->max_line_length)
+            data->max_line_length = ft_strlen(line);
+        free (line);
+    }
+    close (fd);
+    data->map_data = malloc (sizeof(char *) * (data->line_count));
+    i = 0;
+    while (i < data->line_count)
+        data->map_data[i++] = ft_calloc(data->max_line_length);
+}
+
+
+void    get_meta_data(t_data *data, int fd)
+{
     int     count;
     char    *line;
     char    **words;
     
-    fd = open(av, O_RDONLY);
     count = 0;
     while (count < 7)
     {
@@ -167,13 +180,52 @@ void    parser(t_data *data, char *av)
         check_meta_data(data);
 }
 
+void    get_map_data(t_data *data, int fd)
+{
+    char    *line;
+    int     i;
+
+    line = malloc(1);
+    i = 0;
+    while (line)
+    {
+        line = get_next_line(fd);
+        copy_line(data->map_data, line);
+        i++;
+    }
+}
+
+void    copy_line(char *map_data_line, char *line)
+{
+    int i;
+
+    i = 0;
+    while (line[i])
+    {
+        map_data_line[i] = line[i];
+        i++;
+    }
+}
+void    parser(t_data *data, char *av)
+{
+    int     fd;
+    fd = open(av, O_RDONLY);
+    
+    get_meta_data(data, fd);
+    get_map_size(data, fd);
+    fd = open(av, O_RDONLY);
+    get_meta_data(data, fd);
+    get_map_data(data, fd);
+    
+}
+
 int main(int ac, char *av[])
 {
     t_data  data;
     if (arg_check(ac, av))
         return (1);
     init();
-    parser(&data, av[1]);
+    parser(data, av);
     mlx_handle();
     init_win();
     prep_map_for_rc();
