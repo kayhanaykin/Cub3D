@@ -4,3 +4,4 @@ https://www.youtube.com/watch?v=RSXM9bgqxJM&ab_channel=Insidecode shows how to d
 https://www.youtube.com/watch?v=zgHPPVKN2hM&ab_channel=AsgardScience Great and simple explanation of the technique !!
 https://lodev.org/cgtutor/raycasting.html tutorial (not read), seems showing all
 https://www.youtube.com/watch?v=NbSee-XM7WA&ab_channel=javidx9 half watched, it seems to explain all. 
+https://medium.com/@afatir.ahmedfatir/cub3d-tutorial-af5dd31d2fcf raycasting tutorial, 42 student, breshenham (not read)
