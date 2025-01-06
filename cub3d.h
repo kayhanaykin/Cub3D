@@ -6,7 +6,7 @@
 /*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2024/12/19 14:38:26 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/01/06 13:58:04 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_data
 {
     char    **meta_data;
     char    **map_data;
+	char	**second_map_data;
     void	*mlx_ptr;
 	void	*win_ptr;
 	void	*img_ptr;
@@ -47,6 +48,6 @@ enum Identifiers
     EA,
     F,
     C
-}
+};
 
 #endif
