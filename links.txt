@@ -6,3 +6,5 @@ https://lodev.org/cgtutor/raycasting.html tutorial (not read), seems showing all
 https://www.youtube.com/watch?v=NbSee-XM7WA&ab_channel=javidx9 half watched, it seems to explain all. 
 https://medium.com/@afatir.ahmedfatir/cub3d-tutorial-af5dd31d2fcf raycasting tutorial, 42 student, breshenham (not read)
 https://github.com/iciamyplant/Cub3d-Linux possibly working github
+https://www.youtube.com/watch?v=igKRMz--BuM&ab_channel=PickentCode minimap,uzerinden gelen calisma mantigi 30sn
+https://theshoemaker.de/posts/ray-casting-in-2d-grids
