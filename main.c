@@ -6,7 +6,7 @@
 /*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/29 11:42:43 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/01/29 16:48:30 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
     Argümanların kontrolü
 */
 
-int arg_check(int ac, char *av[])
+void arg_check(int ac, char *av[])
 {
     int len;
     
     if (ac != 2)
-        return(error_handler(NULL, "Wrong number of arguments"));
+       error_handler(NULL, "Wrong number of arguments");
     len = ft_strlen(av[1]);
     if (len < 5 || av[1][len - 1] != 'b' || av[1][len - 2] != 'u' 
         || av[1][len - 3] != 'c' || av[1][len - 4] != '.')
-        return(error_handler(NULL, "Improper file"));
-    return (0);
+        error_handler(NULL, "Improper file");
+    return ;
 }
 
 /*
@@ -41,19 +41,9 @@ int	error_handler(t_data *data, char *msg)
 		ft_putendl_fd(msg, 2);
     }
 	free(msg); //"string literal buraya gelebilir, freeleme sorunu cikabilir kontrol edilmesi lazim"
-    //freedata
+    //freedata()
     exit(1);
 	//return (1);
-}
-
-/*
-    Initialize
-*/
-
-void    init(t_data data)
-{
-    char *meta[6];
-    data.meta_data = meta;
 }
 
 /*
@@ -69,7 +59,7 @@ void    replace_white_s_with_s(char *str)
     {
         if(str[i] == '\f' ||str[i] == '\r' 
             || str[i] == '\v' || str[i] == '\t')
-            str[i] == ' ';
+            str[i] = ' ';
         i++;
     }
     return ;
@@ -118,22 +108,25 @@ void    check_meta_data(t_data *data)
 */
 void    get_element(t_data *data, char **str)
 {
-    int i;
 
-    i = 0;
-    if (str[0][0] == 'N' && str[0][1] == 'O' && str[0][2] == NULL)
-        data->meta_data[NO] = str[1];
-    else if (str[0][0] == 'S' && str[0][1] == 'O' && str[0][2] == NULL)
-        data->meta_data[SO] = str[1];
-    else if (str[0][0] == 'W' && str[0][1] == 'E' && str[0][2] == NULL)
-        data->meta_data[WE] = str[1];
-    else if (str[0][0] == 'E' && str[0][1] == 'A' && str[0][2] == NULL)
-        data->meta_data[EA] = str[1];
-    else if (str[0][0] == 'F' && str[0][1] == NULL)
-        data->meta_data[F] = str[1];
-    else if (str[0][0] == 'C' && str[0][1] == NULL)
+	printf("word: %c\n", str[0][1]);
+	
+    int i;
+	
+	i = 0;
+    if (str[0][0] == 'N' && str[0][1] == 'O')
+        data->meta_data[NO] = ft_strdup(str[1]);
+    else if (str[0][0] == 'S' && str[0][1] == 'O')
+        data->meta_data[SO] = ft_strdup(str[1]);
+    else if (str[0][0] == 'W' && str[0][1] == 'E')
+        data->meta_data[WE] = ft_strdup(str[1]);
+    else if (str[0][0] == 'E' && str[0][1] == 'A')
+        data->meta_data[EA] = ft_strdup(str[1]);
+    else if (str[0][0] == 'F' && !str[0][1])
+        data->meta_data[F] = ft_strdup(str[1]);
+    else if (str[0][0] == 'C' && !str[0][1])
         data->meta_data[C] = str[1];
-    if (str[2] != NULL)
+    if (str[0][2] && str[2] != NULL)
         error_handler(data, "Excessive information");
 }
 
@@ -197,6 +190,17 @@ void    get_map_size(t_data *data, int fd)
         data->map_data[i++] = ft_calloc(data->max_line_length, sizeof(char));
 }
 
+void	get_color(t_data *data)
+{
+	char **word;
+	
+	word = ft_split(data->meta_data[F], ',');
+	data->floor_color = (65536 * ft_atoi(word[0])) + 
+		(256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
+	word = ft_split(data->meta_data[C], ',');
+	data->ceiling_color = (65536 * ft_atoi(word[0])) + 
+		(256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
+}
 
 void    get_meta_data(t_data *data, int fd)
 {
@@ -213,11 +217,25 @@ void    get_meta_data(t_data *data, int fd)
         if (words[0] == NULL)
             continue ;
         get_element(data, words);
+		get_color(data);
         count++;
         free_words(words);
     }
     if (count != 6)
         check_meta_data(data);
+}
+
+void    copy_line(char **map_data, char *line, int line_no)
+{
+    int i;
+
+    i = 0;
+    while (line[i])
+    {
+        map_data[line_no][i] = line[i];
+        i++;
+    }
+	map_data[line_no][i] = '\0';
 }
 
 void    get_map_data(t_data *data, int fd)
@@ -240,19 +258,6 @@ void    get_map_data(t_data *data, int fd)
 		free(line);
         line = get_next_line(fd);
     }
-}
-
-void    copy_line(char **map_data, char *line, int line_no)
-{
-    int i;
-
-    i = 0;
-    while (line[i])
-    {
-        map_data[line_no][i] = line[i];
-        i++;
-    }
-	map_data[line_no][i] = '\0';
 }
 
 void    parser(t_data *data, char *av)
@@ -315,28 +320,6 @@ void	possible_char_check(t_data *data)
 	}
 }
 
-void	flood_fill(t_data *data, int x, int y, char c) //koselerin kapalı olma durumunu kontrol ettik, recursion olusturduk
-{	
-	data->multiple_map_count++;
-	if (border_check(data, x, y) || ws_check(data, x, y))
-		if(c != '1')
-			error_handler(data, "Unclosed map");
-		else
-			return ;
-	// if (border_check(data, x, y) && c != '1')
-	// 	error_handler(data, "Unclosed map");
-	// else if (border_check(data, x, y) && c == '1')  //kose/kenar ve duvarsa recursion bitecek.
-	// 	return ;
-	// if (ws_check(data, x, y) && c != '1')
-	// 	error_handler(data, "Unclosed map");
-	// else if (ws_check(data, x, y) && c == '1')  //kose/kenar ve duvarsa recursion bitecek.
-	// 	return ;
-	flood_fil(data, x - 1, y, data->map_data[y][x]); //sol
-	flood_fil(data, x , y + 1, data->map_data[y][x]); //aşağı
-	flood_fil(data, x + 1, y, data->map_data[y][x]); //sağ
-	flood_fil(data, x, y - 1, data->map_data[y][x]);  //üst
-}
-
 int	border_check(t_data *data, int x, int y) // kose kontrolu yaptik
 {
 	if (x == 0 || x == data->max_line_length - 1)
@@ -347,6 +330,29 @@ int	border_check(t_data *data, int x, int y) // kose kontrolu yaptik
 		return (0);
 }
 
+void	flood_fill(t_data *data, int x, int y, char c) //koselerin kapalı olma durumunu kontrol ettik, recursion olusturduk
+{	
+	data->multiple_map_count++;
+	if (border_check(data, x, y) || white_space_check(data->map_data[y][x]))
+	{
+		if(c != '1')
+			error_handler(data, "Unclosed map");
+		else
+			return ;	
+	}
+	// if (border_check(data, x, y) && c != '1')
+	// 	error_handler(data, "Unclosed map");
+	// else if (border_check(data, x, y) && c == '1')  //kose/kenar ve duvarsa recursion bitecek.
+	// 	return ;
+	// if (ws_check(data, x, y) && c != '1')
+	// 	error_handler(data, "Unclosed map");
+	// else if (ws_check(data, x, y) && c == '1')  //kose/kenar ve duvarsa recursion bitecek.
+	// 	return ;
+	flood_fill(data, x - 1, y, data->map_data[y][x]); //sol
+	flood_fill(data, x , y + 1, data->map_data[y][x]); //aşağı
+	flood_fill(data, x + 1, y, data->map_data[y][x]); //sağ
+	flood_fill(data, x, y - 1, data->map_data[y][x]);  //üst
+}
 
 void	second_map_check(t_data *data)
 {
@@ -361,20 +367,34 @@ void	map_control(t_data *data)
 	second_map_check(data);
 }
 
+void    init(t_data *data)
+{
+    ft_bzero(data, sizeof(t_data));  // Changed from sizeof(data)
+    data->meta_data = ft_calloc(6, sizeof(char *));  // Add this line
+    if (!data->meta_data)
+        error_handler(data, "Error: Allocation Error");
+    // Initialize other necessary fields
+    data->window_height = 480;  // Add default values if needed
+    data->window_width = 640;
+}
 
 int main(int ac, char *av[])
 {
     t_data  data;
-    if (arg_check(ac, av))
-        return (1);
-    init();  //data struct initi, yapilacak
-    parser(&data, av);
+    arg_check(ac, av);
+    init(&data);  //data struct initi, yapilacak
+    parser(&data, av[1]);
 	map_control(&data);
-    mlx_handle();
-    init_win();
-    prep_map_for_rc();
-    ray_casting();
-    mlx_loop();
+	create_window(&data);
+	create_image(&data);
+	set_background(&data);
 
+    // prep_map_for_rc();
+    // ray_casting();
+
+	mlx_hook(data.win_ptr, 2, (1L << 0), key_press, &data);
+	mlx_hook(data.win_ptr, 17, 0, close_frame, &data); //maske yazılabilir
+	mlx_loop(data.mlx_ptr);
+	// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img_ptr, 0, 0);
     return (0);
 }

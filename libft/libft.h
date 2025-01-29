@@ -13,14 +13,19 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdlib.h>
 # include <unistd.h>
+# include <stdlib.h>
+# include <stdarg.h>
 
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;	
 }					t_list;
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000
+# endif
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -37,7 +42,6 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 char	*ft_strchr(const char *s, int c);
-int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strrchr(const char *s, int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
@@ -67,5 +71,21 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+int		ft_word_count(char const *str, char c);
+char	*ft_strduplen(char *stock, int len);
+void	ft_number(int number, int *length);
+void	ft_pointer(size_t pointer, int *length);
+void	ft_hexadecimal(unsigned int x, int *length, char x_or_x);
+void	ft_unsigned_int(unsigned int u, int *length);
+int		ft_printf(const char *string, ...);
+void	ft_putcharacter_length(char character, int *length);
+void	ft_string(char *args, int *length);
+char	*get_next_line(int fd);
+void	ft_read(int fd, char *buff, char **stock);
+int		ft_find_nl(char	*stock);
+char	*extract_line(char **stock);
+int		ft_strlen_gnl(char *stock);
+char	*ft_strdup_gnl(char *stock, int len);
+char	*ft_strjoin_gnl(char *stock, char *buff);
 
 #endif

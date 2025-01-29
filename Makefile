@@ -5,31 +5,30 @@
 #                                                     +:+ +:+         +:+      #
 #    By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/12/18 12:32:31 by kaykin            #+#    #+#              #
-#    Updated: 2024/12/18 12:37:20 by kaykin           ###   ########.fr        #
+#    Created: 2025/01/29 15:48:10 by kaykin            #+#    #+#              #
+#    Updated: 2025/01/29 16:20:06 by kaykin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= cub3d
-CC			= gcc -g
-FLAGS 		= -Wall -Wextra -Werror
+CC			= cc -g
+FLAGS 		= -Wall -Wextra -Werror -fsanitize=address
 EXTRA_FLAGS = -Wno-deprecated
-SRCS		= 	main.c draw_mesh.c draw_transforms.c hook.c utils.c
+SRCS		= 	main.c hook.c mlx.c
 OBJS		:= $(SRCS:.c=.o)
 
-FRAMEWORKS	= -framework OpenGL -framework AppKit
+FRAMEWORKS	= -lXext -lX11 -lm -lz
 AR_LIBFT	= libft/libft.a
-AR_LIBMLX	= minilibx_linux/libmlx.a
+AR_LIBMLX	= minilibx-linux/libmlx.a
 DIR_LIBFT	= libft
-DIR_LIBMLX	= minilibx_linux
+DIR_LIBMLX	= minilibx-linux
 
 all: $(NAME)
-	rm -rf minilibx-linux.tgz
 
 $(NAME): $(OBJS) 
 	make -s -C $(DIR_LIBFT)
 	make -s -C $(DIR_LIBMLX) CFLAGS+="$(EXTRA_FLAGS)"
-	$(CC) $(FLAGS) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME) -g
+	$(CC) $(FLAGS) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME)
 
 clean:                                                             
 			rm -f $(OBJS)
@@ -50,3 +49,4 @@ run2:
 
 	
 .PHONY: all clean fclean re
+
