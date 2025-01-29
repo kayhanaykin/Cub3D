@@ -6,7 +6,7 @@
 /*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/06 15:05:39 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/01/29 11:42:43 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void    check_meta_data(t_data *data)
     {
         if (data->meta_data[i] == NULL)
             error_handler(data, "Missing or repeated elements");
-        if (access(data->meta_data[i], F_OK | R_OK) != 0)
+        if (i < 4 && access(data->meta_data[i], F_OK | R_OK) != 0)
             error_handler(data, "Non-existing or unreadable file");
         i++;
     }
@@ -166,7 +166,9 @@ void    get_map_size(t_data *data, int fd)
     char    *line;
     int     i;
 
-    line = malloc(1);
+    line = malloc(1);  //niye yapiyorduk?
+	if (line == NULL)
+		error_handler(data, "Error: Allocation Error");
 	while (1) // white space kontrolü yaptık harita gelmeden onceki bos satirlari atladik
 	{
 		line = get_next_line(fd);
@@ -178,16 +180,18 @@ void    get_map_size(t_data *data, int fd)
         data->line_count++;
         if (ft_strlen(line) > data->max_line_length)
             data->max_line_length = ft_strlen(line);
-		if (!all_white_space(line))
-		{
-			data->line_count--;
-			break ;
-		}
+		// if (!all_white_space(line))
+		// {
+		// 	data->line_count--;
+		// 	break ;
+		// }
         free (line);
         line = get_next_line(fd);
     }
     close (fd);
-    data->map_data = malloc (sizeof(char *) * (data->line_count));
+    data->map_data = malloc (sizeof(char *) * (data->line_count));  //second map icin malloc yapilabilir
+	if (data->map_data == NULL)
+		error_handler(data, "Error: Allocation Error");
     i = 0;
     while (i < data->line_count)
         data->map_data[i++] = ft_calloc(data->max_line_length, sizeof(char));
@@ -200,8 +204,8 @@ void    get_meta_data(t_data *data, int fd)
     char    *line;
     char    **words;
     
-    count = 0;
-    while (count < 7)
+    count = -1;
+    while (count < 6)
     {
         line = get_next_line(fd);
         replace_white_s_with_s(line);
@@ -212,7 +216,7 @@ void    get_meta_data(t_data *data, int fd)
         count++;
         free_words(words);
     }
-    if (count != 7)
+    if (count != 6)
         check_meta_data(data);
 }
 
@@ -294,6 +298,7 @@ void	possible_char_check(t_data *data)
 	i = 0;
 	while (i < data->line_count)
 	{
+		
 		j = 0;
 		while (j < data->max_line_length)
 		{
@@ -302,28 +307,34 @@ void	possible_char_check(t_data *data)
 				data->pos_x = j;
 				data->pos_y = i;
 			}
+			if (!white_space_check(data->map_data[i][j]))
+				data->total_char_count++;
 			j++;
 		}
 		i++;
 	}
 }
 
-void	recursion(t_data *data, int x, int y, char c) //koselerin kapalı olma durumunu kontrol ettik, recursion olusturduk
-{
-	if (border_check(data, x, y) && data->map_data[y][x] != '1')
-		error_handler(data, "Unclosed map");
-	if (!white_space_check(data->map_data[y][x]))
-	{
-		recursion(data, x - 1, y, data->map_data[y][x]);
-		recursion(data, x - 1, y - 1, data->map_data[y][x]);
-		recursion(data, x, y, data->map_data[y][x]);
-		recursion(data, x, y - 1, data->map_data[y][x]);
-	}
-	else
-	{
-		if (c != 1)
+void	flood_fill(t_data *data, int x, int y, char c) //koselerin kapalı olma durumunu kontrol ettik, recursion olusturduk
+{	
+	data->multiple_map_count++;
+	if (border_check(data, x, y) || ws_check(data, x, y))
+		if(c != '1')
 			error_handler(data, "Unclosed map");
-	}
+		else
+			return ;
+	// if (border_check(data, x, y) && c != '1')
+	// 	error_handler(data, "Unclosed map");
+	// else if (border_check(data, x, y) && c == '1')  //kose/kenar ve duvarsa recursion bitecek.
+	// 	return ;
+	// if (ws_check(data, x, y) && c != '1')
+	// 	error_handler(data, "Unclosed map");
+	// else if (ws_check(data, x, y) && c == '1')  //kose/kenar ve duvarsa recursion bitecek.
+	// 	return ;
+	flood_fil(data, x - 1, y, data->map_data[y][x]); //sol
+	flood_fil(data, x , y + 1, data->map_data[y][x]); //aşağı
+	flood_fil(data, x + 1, y, data->map_data[y][x]); //sağ
+	flood_fil(data, x, y - 1, data->map_data[y][x]);  //üst
 }
 
 int	border_check(t_data *data, int x, int y) // kose kontrolu yaptik
@@ -336,25 +347,17 @@ int	border_check(t_data *data, int x, int y) // kose kontrolu yaptik
 		return (0);
 }
 
-void	closed_wall_check(t_data *data) // silebiliriz burayi
-{
-	int	x;
-	int	y;
-
-	x = data->pos_x;
-	y = data->pos_y;
-	if (white_space_check(data->map_data[y][x - 1]) && data->map_data[y][x] == 1)
-}
 
 void	second_map_check(t_data *data)
 {
-	
+	if (data->multiple_map_count != data->total_char_count)
+		error_handler(data, "Error: Multiple maps");
 }
 
 void	map_control(t_data *data)
 {
 	possible_char_check(data);
-	closed_wall_check(data);
+	flood_fill(data, data->pos_x, data->pos_y, 0);
 	second_map_check(data);
 }
 
@@ -364,7 +367,7 @@ int main(int ac, char *av[])
     t_data  data;
     if (arg_check(ac, av))
         return (1);
-    init();
+    init();  //data struct initi, yapilacak
     parser(&data, av);
 	map_control(&data);
     mlx_handle();
