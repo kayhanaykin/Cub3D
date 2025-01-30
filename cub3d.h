@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/29 16:42:00 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/01/30 19:51:31 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_data
     char    **meta_data;
     char    **map_data;
 	char	**second_map_data;
+    int     offset_line_count;
 	int		multiple_map_count; //double map var mı kontrolü, playerın olduğu mapin karakter sayısı
     int		total_char_count; // whitespace olmayan karakter sayısı text dosyasında
 	void	*mlx_ptr;

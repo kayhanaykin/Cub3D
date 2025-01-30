@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/30 19:43:48 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/01/30 20:01:38 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,7 @@ void    get_meta_data(t_data *data, int fd)
     while (count < 6)
     {
         line = get_next_line(fd);
+        data->offset_line_count++;
         replace_white_s_with_s(line);
         words = ft_split(line, ' ');
         free(line);
@@ -253,6 +254,7 @@ void    get_meta_data(t_data *data, int fd)
         count++;
         free_words(words);
     }
+    
     check_meta_data(data);
     get_color(data);
 }
@@ -285,7 +287,6 @@ void    get_map_data(t_data *data, int fd)
 	}
     while (line)
     {
-        printf("line:%s\n", line);
         copy_line(data->map_data, line, i);
         i++;
 		free(line);
@@ -294,6 +295,15 @@ void    get_map_data(t_data *data, int fd)
     }
     //data->map_data[data->pos_y][data->pos_x] = '0';
 }
+
+void    map_offset(t_data *data, int fd)
+{
+    while (data->offset_line_count--)
+    {
+        get_next_line(fd);
+    }
+}
+
 
 void    parser(t_data *data, char *av)
 {
@@ -304,9 +314,8 @@ void    parser(t_data *data, char *av)
     get_map_size(data, fd);
     close (fd);
     fd = open(av, O_RDONLY);
-    get_meta_data(data, fd); //offseti haritanın başına getiriyoruz
-    get_map_data(data, fd);
-    print_map(data);
+    map_offset(data, fd);
+    get_map_data(data, fd); //offseti haritanın başına getiriyoruz
 }
 
 int	player_pos_finder(t_data *data, char c) //gelen harfe gore baktigi yonu belirleyip acisini aldik, invalid char gelirse hata veriyoruz
@@ -431,6 +440,7 @@ void    init(t_data *data)
     // Initialize other necessary fields
     data->window_height = 1080;  // Add default values if needed
     data->window_width = 1440;
+    data->offset_line_count = 0;
 }
 
 int main(int ac, char *av[])
