@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_gnl_utils.c                                     :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 12:11:43 by kaykin            #+#    #+#             */
-/*   Updated: 2024/05/27 16:36:11 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/01/30 18:37:13 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ char	*extract_line(char **stock)
 	n_loc = 0;
 	while (ptr[n_loc] && ptr[n_loc] != '\n')
 		n_loc++;
-	next_line = ft_strdup_gnl(ptr, n_loc);
 	if (ptr[n_loc] == '\n')
 		n_loc++;
+	next_line = ft_strdup_gnl(ptr, n_loc);
 	*stock = ft_strdup_gnl(ptr + n_loc, ft_strlen_gnl(ptr + n_loc));
 	if (ptr)
 		free(ptr);
