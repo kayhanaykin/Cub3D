@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+         #
+#    By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:48:10 by kaykin            #+#    #+#              #
-#    Updated: 2025/01/29 16:20:06 by kaykin           ###   ########.fr        #
+#    Updated: 2025/01/30 17:38:45 by kaykin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= cub3d
 CC			= cc -g
-FLAGS 		= -Wall -Wextra -Werror -fsanitize=address
+FLAGS 		= -Wall -Wextra -Werror 
 EXTRA_FLAGS = -Wno-deprecated
 SRCS		= 	main.c hook.c mlx.c
 OBJS		:= $(SRCS:.c=.o)

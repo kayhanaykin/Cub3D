@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:18:59 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/29 16:19:09 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/01/30 16:41:45 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	create_window(t_data *data)
 	if (!data->mlx_ptr)
 		error_handler(data, "Error: Mlx display connection cannot be initiated");
 	data->win_ptr = mlx_new_window(data->mlx_ptr, data->window_width,
-			data->window_height, "Küptridi");
+			data->window_height, "Kuptridi");
 	if (!data->win_ptr)
 		error_handler(data, "Error: Mlx window cannot be initiated");
 	return ;

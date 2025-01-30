@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/29 16:48:30 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/01/30 17:39:49 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,9 @@ int	error_handler(t_data *data, char *msg)
 {
 	if (msg != NULL)
     {
-        ft_putendl_fd("Error", 2);
 		ft_putendl_fd(msg, 2);
     }
-	free(msg); //"string literal buraya gelebilir, freeleme sorunu cikabilir kontrol edilmesi lazim"
+	//free(msg); //"string literal buraya gelebilir, freeleme sorunu cikabilir kontrol edilmesi lazim"
     //freedata()
     exit(1);
 	//return (1);
@@ -55,7 +54,7 @@ void    replace_white_s_with_s(char *str)
     int i;
 
     i = 0;
-    while(str[i])
+    while(str && str[i])
     {
         if(str[i] == '\f' ||str[i] == '\r' 
             || str[i] == '\v' || str[i] == '\t')
@@ -108,11 +107,8 @@ void    check_meta_data(t_data *data)
 */
 void    get_element(t_data *data, char **str)
 {
-
-	printf("word: %c\n", str[0][1]);
-	
     int i;
-	
+	//printf("str:%d\n", str);
 	i = 0;
     if (str[0][0] == 'N' && str[0][1] == 'O')
         data->meta_data[NO] = ft_strdup(str[1]);
@@ -125,7 +121,7 @@ void    get_element(t_data *data, char **str)
     else if (str[0][0] == 'F' && !str[0][1])
         data->meta_data[F] = ft_strdup(str[1]);
     else if (str[0][0] == 'C' && !str[0][1])
-        data->meta_data[C] = str[1];
+        data->meta_data[C] = ft_strdup(str[1]);
     if (str[0][2] && str[2] != NULL)
         error_handler(data, "Excessive information");
 }
@@ -135,7 +131,7 @@ int		all_white_space(char *str)
 	int i;
 	
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (!(str[i] == '\f' || str[i] == '\r' 
             || str[i] == '\v' || str[i] == '\t' || str[i] == '\n'))
@@ -146,9 +142,9 @@ int		all_white_space(char *str)
 }
 
 //whitespace check yapıyoruz bir karakter üzerinden
-int	white_space_check(char c)
-{
-	if (!(c == '\f' || c == '\r' 
+int	is_white_space(char c) //ws ise 0 donuyor
+{	
+    if (!(c == '\f' || c == '\r' 
         || c == '\v' || c == '\t' || c == '\n'))
 		return (1);
 	return (0);
@@ -192,14 +188,16 @@ void    get_map_size(t_data *data, int fd)
 
 void	get_color(t_data *data)
 {
-	char **word;
-	
-	word = ft_split(data->meta_data[F], ',');
-	data->floor_color = (65536 * ft_atoi(word[0])) + 
-		(256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
-	word = ft_split(data->meta_data[C], ',');
-	data->ceiling_color = (65536 * ft_atoi(word[0])) + 
-		(256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
+    //if (str[0] == 'F' || str[0] == 'C')
+    //{
+        char **word;
+        word = ft_split(data->meta_data[F], ',');
+        data->floor_color = (65536 * ft_atoi(word[0])) + 
+            (256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
+        word = ft_split(data->meta_data[C], ',');
+        data->ceiling_color = (65536 * ft_atoi(word[0])) + 
+            (256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
+    //}
 }
 
 void    get_meta_data(t_data *data, int fd)
@@ -208,21 +206,26 @@ void    get_meta_data(t_data *data, int fd)
     char    *line;
     char    **words;
     
-    count = -1;
+    count = 0;
     while (count < 6)
     {
         line = get_next_line(fd);
         replace_white_s_with_s(line);
+        //printf("lines:%s\n", line);
         words = ft_split(line, ' ');
-        if (words[0] == NULL)
+        if (!words || words[0] == NULL) 
+        //bos satır komple bos olabilir yani null, veya icerisinde white space iceren bir line de olabilr
+        // her iki durumda da atlamasi gerekiyor
             continue ;
         get_element(data, words);
-		get_color(data);
         count++;
         free_words(words);
+        //printf("count:%d\n", count);
     }
+    //printf("check\n");
     if (count != 6)
         check_meta_data(data);
+    get_color(data);
 }
 
 void    copy_line(char **map_data, char *line, int line_no)
@@ -258,6 +261,7 @@ void    get_map_data(t_data *data, int fd)
 		free(line);
         line = get_next_line(fd);
     }
+    //data->map_data[data->pos_y][data->pos_x] = '0';
 }
 
 void    parser(t_data *data, char *av)
@@ -276,7 +280,7 @@ int	player_pos_finder(t_data *data, char c) //gelen harfe gore baktigi yonu beli
 {
 	static int counter;
 
-	if (c == '0' || c == '1')
+	if (c == '0' || c == '1' || c == '\0' || c == ' ')
 		return (0);
 	else if (c == 'N')
 		data->pos_angle = 0;
@@ -287,7 +291,8 @@ int	player_pos_finder(t_data *data, char c) //gelen harfe gore baktigi yonu beli
 	else if (c == 'W')
 		data->pos_angle = 270;
 	else
-		error_handler(data, "Invalid Character");
+        {printf("%d\n", c);
+		error_handler(data, "Invalid Character");}
 	counter++;
 	if (counter > 1)
 		error_handler(data, "More than one player");
@@ -307,12 +312,14 @@ void	possible_char_check(t_data *data)
 		j = 0;
 		while (j < data->max_line_length)
 		{
+            //printf("length%d\n", data->max_line_length);
+            //printf("ss%c\n", data->map_data[i][j]);
 			if (player_pos_finder(data, data->map_data[i][j])) //pozisyonu alıyoruz
 			{
 				data->pos_x = j;
 				data->pos_y = i;
 			}
-			if (!white_space_check(data->map_data[i][j]))
+			if (data->map_data[i][j] != '\0' && data->map_data[i][j] != ' ')
 				data->total_char_count++;
 			j++;
 		}
@@ -322,35 +329,72 @@ void	possible_char_check(t_data *data)
 
 int	border_check(t_data *data, int x, int y) // kose kontrolu yaptik
 {
-	if (x == 0 || x == data->max_line_length - 1)
+    printf("--data->max_line_length:%d, data->line_coun: %d\n", data->max_line_length, data->line_count);
+	if (x == -1 || x == data->max_line_length)
 		return (1);
-	else if (y == 0 || y == data->line_count - 1)
+	else if (y == -1 || y == data->line_count)
 		return (2);
+    else if (data->map_data[y][x] == '\0')
+        return (3);
 	else
 		return (0);
 }
 
+void    cross_check(t_data *data, int x, int y)
+{   
+    printf("--x:%d, y: %d\n", x, y);
+    if (x == -1 || x == data->max_line_length || y == -1 ||
+            y == data->line_count)
+		error_handler(data, "Error: Unclosed map");
+    if (data->map_data[y][x] == ' ')
+        error_handler(data, "Error: Unclosed map");
+}
+
 void	flood_fill(t_data *data, int x, int y, char c) //koselerin kapalı olma durumunu kontrol ettik, recursion olusturduk
 {	
-	data->multiple_map_count++;
-	if (border_check(data, x, y) || white_space_check(data->map_data[y][x]))
+	if (border_check(data, x, y) || data->map_data[y][x] == ' ') //wspacecheck girintli harita kontrolü, bosluksa, ws sifir dondutuyor,  giriyor yani
 	{
-		if(c != '1')
-			error_handler(data, "Unclosed map");
+        //printf("--x:%d, y: %d c: %d\n", x, y, c);
+           //printf("border:%d\n", border_check(data, x, y));
+           // printf("whitespace:%d\n", !white_space_check(data->map_data[y][x]));
+          //  printf("--x:%d, y: %d c: %c\n", x, y, c);
+
+		if(!(c == '1' || c == 'W'))
+			error_handler(data, "Error: Unclosed map");
 		else
 			return ;	
 	}
-	// if (border_check(data, x, y) && c != '1')
-	// 	error_handler(data, "Unclosed map");
-	// else if (border_check(data, x, y) && c == '1')  //kose/kenar ve duvarsa recursion bitecek.
-	// 	return ;
-	// if (ws_check(data, x, y) && c != '1')
-	// 	error_handler(data, "Unclosed map");
-	// else if (ws_check(data, x, y) && c == '1')  //kose/kenar ve duvarsa recursion bitecek.
-	// 	return ;
+    if (data->map_data[y][x] == 'R' || data->map_data[y][x] == 'W')
+        return;
+
+    if (data->map_data[y][x] == '0')
+    {
+        cross_check(data, x - 1, y - 1);
+        cross_check(data, x + 1, y + 1);
+        cross_check(data, x - 1, y + 1);
+        cross_check(data, x + 1, y - 1);
+        data->map_data[y][x] = 'R';
+    }
+    else if (data->map_data[y][x] == '1')
+        data->map_data[y][x] = 'W';
+    int i = 0;
+    int j = 0;
+    while(i < data->line_count)
+    {
+        j = 0;
+        while(j < data->max_line_length)
+        {
+           printf("%c",data->map_data[i][j]);
+            j++;
+        }
+        i++;
+        printf("\n");
+    }
+    // printf("multiple_map_count++: %d, x:%d, y:%d\n ",data->multiple_map_count, x, y);
+    data->multiple_map_count++;
 	flood_fill(data, x - 1, y, data->map_data[y][x]); //sol
-	flood_fill(data, x , y + 1, data->map_data[y][x]); //aşağı
 	flood_fill(data, x + 1, y, data->map_data[y][x]); //sağ
+	flood_fill(data, x , y + 1, data->map_data[y][x]); //aşağı
 	flood_fill(data, x, y - 1, data->map_data[y][x]);  //üst
 }
 
@@ -363,7 +407,10 @@ void	second_map_check(t_data *data)
 void	map_control(t_data *data)
 {
 	possible_char_check(data);
-	flood_fill(data, data->pos_x, data->pos_y, 0);
+    data->map_data[data->pos_y][data->pos_x] = '0';
+	flood_fill(data, data->pos_x, data->pos_y, '0');
+    printf("multiple%d\n",data->multiple_map_count);
+    printf("total%d\n",data->total_char_count);
 	second_map_check(data);
 }
 
@@ -374,8 +421,8 @@ void    init(t_data *data)
     if (!data->meta_data)
         error_handler(data, "Error: Allocation Error");
     // Initialize other necessary fields
-    data->window_height = 480;  // Add default values if needed
-    data->window_width = 640;
+    data->window_height = 1080;  // Add default values if needed
+    data->window_width = 1440;
 }
 
 int main(int ac, char *av[])
@@ -398,3 +445,16 @@ int main(int ac, char *av[])
 	// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img_ptr, 0, 0);
     return (0);
 }
+// int i = 0;
+    // int j = 0;
+    // while(i < data->line_count)
+    // {
+    //     j = 0;
+    //     while(j < data->max_line_length)
+    //     {
+    //        printf("%c",data->map_data[i][j]);
+    //         j++;
+    //     }
+    //     i++;
+    //     printf("\n");
+    // }
