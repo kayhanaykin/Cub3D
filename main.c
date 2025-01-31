@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/30 20:01:38 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/01/31 10:30:02 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void    check_meta_data(t_data *data)
     while (i < 6)
     {
         if (data->meta_data[i] == NULL)
-            error_handler(data, "Incorrect Metadata");
+            error_handler(data, "Incorrect Metadata1");
         if (i < 4 && access(data->meta_data[i], F_OK | R_OK) != 0)
             error_handler(data, "Non-existing or unreadable file");
         i++;
@@ -154,8 +154,12 @@ void    get_element(t_data *data, char **str)
             data->meta_data[F] = ft_strdup(str[i + 1]);
         else if (str[i][0] == 'C' && !str[i][1])
             data->meta_data[C] = ft_strdup(str[i + 1]); 
+		else
+			error_handler(data, "Incorrect Metadata2");
         i += 2; 
     }
+	if (str[i])
+		error_handler(data, "Incorrect Metadata3");
 }
 
 int		all_white_space(char *str)
@@ -215,6 +219,52 @@ void    get_map_size(t_data *data, int fd)
     while (get_next_line(fd)) // get_next_line bufferini temizlemek icin kullaniyoruz. 
         ;
 }
+int	atoi_cub3d(t_data *data, const char *str)
+{
+	int		i;
+	int		mult;
+	int		nb;
+
+	mult = 1;
+	nb = 0;
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\f' || str[i] == '\n'
+		|| str[i] == '\r' || str[i] == '\t' || str[i] == '\v')
+	{
+		i++;
+	}
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			mult *= -1;
+		i++;
+	}
+	while (str[i])
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+		{
+			nb = (nb * 10) + (str[i] - '0');
+		}
+		else
+			error_handler(data, "Error: Nonnumeric RGB value");
+		i++;
+	}
+	nb *= mult;
+	return (nb);
+}
+
+void check_rgb(t_data *data, char **word)
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		if (atoi_cub3d(data, word[i]) < 0 || atoi_cub3d(data, word[i]) > 255)
+			error_handler(data, "Error: Incorrect RGB value");
+		i++;
+	}
+}
 
 void	get_color(t_data *data)
 {
@@ -222,6 +272,7 @@ void	get_color(t_data *data)
     //{
         char **word;
         word = ft_split(data->meta_data[F], ',');
+		check_rgb(data, word);
         data->floor_color = (65536 * ft_atoi(word[0])) + 
             (256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
         word = ft_split(data->meta_data[C], ',');
