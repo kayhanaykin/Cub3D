@@ -6,13 +6,13 @@
 #    By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:48:10 by kaykin            #+#    #+#              #
-#    Updated: 2025/01/30 19:55:25 by kaykin           ###   ########.fr        #
+#    Updated: 2025/02/01 12:23:36 by kaykin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= cub3d
 CC			= cc -g
-FLAGS 		= -Wall -Wextra -Werror
+FLAGS 		= -Wall -Wextra -Werror -fsanitize=address
 EXTRA_FLAGS = -Wno-deprecated
 SRCS		= 	main.c hook.c mlx.c
 OBJS		:= $(SRCS:.c=.o)

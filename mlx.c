@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:18:59 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/31 14:57:51 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/01 13:18:14 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	create_image(t_data *data)
 
 void	calculate_step(t_data *data)
 {
+	data->mapx = (int)data->pos_x;
+    data->mapy = (int)data->pos_y;
 	if (data->raydirx < 0)
     {
         data->stepx = -1;
@@ -65,21 +67,21 @@ void	calculate_step(t_data *data)
 void	put_vertical_line_to_image(t_data *data, int x, int drawstart, int drawend)
 {
 	char 	*dst;
-
 	while (drawstart < drawend)
 	{
-		dst = data->addr_ptr + (drawstart - 1) * data->size_line + (x * 4);
+		// printf("drawned:%d\n", drawstart);
+		dst = data->addr_ptr + (drawstart) * data->size_line + (x * 4);
 		*(unsigned int *) dst = data->sidecolor[data->side];
 		drawstart++;
 	}
 }
 
 void	put_vertical_line(t_data *data, int x)
-{
+{	
     int lineheight;
     int drawstart;
 	int drawend;
-	  
+	
 	lineheight = (int)(data->window_height / data->perpwalldist);
 	drawstart = -lineheight / 2 + data->window_height / 2;
     drawend = lineheight / 2 + data->window_height / 2;
@@ -89,24 +91,34 @@ void	put_vertical_line(t_data *data, int x)
 		drawend = data->window_height - 1;
 	put_vertical_line_to_image(data, x, drawstart, drawend);
 }
+void	raydir_unitize(t_data *data)
+{
+	double	len;
+	len = sqrt((data->raydirx * data->raydirx) +(data->raydiry * data->raydiry));
+	data->raydirx /= len;
+	data->raydiry /= len;
+}
 
 void	set_wall(t_data *data)
 {
-	int x;
+	float x;
 
 	x = 0;
-	int mapX = (int)data->pos_x;
-    int mapY = (int)data->pos_y;
+
 	while (x < data->window_width)
-	{
-		data->camerax = 2 * x / data->window_width - 1;
+	{ 
+		data->camerax = 2.0f * x / (float)data->window_width - 1.0f;
 		data->raydirx = data->dirx + data->planex * data->camerax;
 		data->raydiry = data->diry + data->planey * data->camerax;
+		data->deltadistx = fabs(1 / data->raydirx);
+		data->deltadisty = fabs(1 / data->raydiry);
+		raydir_unitize(data);
 		calculate_step(data);
 		raycaster(data);
 		put_vertical_line(data, x);
 		x++;
 	}
+	
 }
 
 void 	set_background(t_data *data)
@@ -130,10 +142,10 @@ void 	set_background(t_data *data)
 }
 
 void	raycaster(t_data *data)
-{
+{  
 	while (data->hit == 0)
     {
-		if (data->sidedistx < data->sidedisty)
+		if (fabs(data->sidedistx) < fabs(data->sidedisty))
 		{
 			data->sidedistx += data->deltadistx;
 			data->mapx += data->stepx;
@@ -146,18 +158,25 @@ void	raycaster(t_data *data)
 		{
 			data->sidedisty += data->deltadisty;
 			data->mapy += data->stepy;
-			if (data->stepx == -1)
+			if (data->stepy == -1)
 				data->side = N;
 			else
 				data->side = S;
 		}
-		if (data->map_data[data->mapx][data->mapy] > 0)
+		if (data->map_data[data->mapy][data->mapx] == 'W')
+		{
 			data->hit = 1;
+		}
     }
+	data->hit = 0; 
 	if (data->side == W || data->side == E)
+	// {	printf("test1\n");   	
 		data->perpwalldist = (data->sidedistx - data->deltadistx);
-    else          
+	// }
+    else
+// {		printf("test2\n");        
 		data->perpwalldist = (data->sidedisty - data->deltadisty);
+		// }
 }
 
 
@@ -165,19 +184,5 @@ int	close_frame(t_data *data)
 {
 	mlx_destroy_image(data->mlx_ptr, data->img_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	// freedata(data);
 	exit(0);
 }
-	//set_background
-	// while (i < (data->window_height * data->window_width) / 2)
-	// {
-	// 	dst = data->addr_ptr + i;
-	// 	*(unsigned int *) dst = data->ceiling_color;
-	// 	i += data->bits_per_pixel / 8;
-	// }
-	// while (i < (data->window_height * data->window_width))
-	// {
-	// 	dst = data->addr_ptr + i;
-	// 	*(unsigned int *) dst = data->floor_color;
-	// 	i += data->bits_per_pixel / 8;
-	// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/31 14:58:42 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/01 12:39:45 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,17 +270,15 @@ void check_rgb(t_data *data, char **word)
 
 void	get_color(t_data *data)
 {
-    //if (str[0] == 'F' || str[0] == 'C')
-    //{
-        char **word;
-        word = ft_split(data->meta_data[F], ',');
-		check_rgb(data, word);
-        data->floor_color = (65536 * ft_atoi(word[0])) + 
-            (256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
-        word = ft_split(data->meta_data[C], ',');
-        data->ceiling_color = (65536 * ft_atoi(word[0])) + 
-            (256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
-    //}
+    char **word;
+    word = ft_split(data->meta_data[F], ',');
+    check_rgb(data, word);
+    data->floor_color = (65536 * ft_atoi(word[0])) + 
+        (256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
+    word = ft_split(data->meta_data[C], ',');
+    data->ceiling_color = (65536 * ft_atoi(word[0])) + 
+        (256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
+
 }
 
 void    get_meta_data(t_data *data, int fd)
@@ -346,7 +344,6 @@ void    get_map_data(t_data *data, int fd)
         line = get_next_line(fd);
         replace_white_s_with_s(line);
     }
-    //data->map_data[data->pos_y][data->pos_x] = '0';
 }
 
 void    map_offset(t_data *data, int fd)
@@ -389,7 +386,7 @@ int	player_pos_finder(t_data *data, char c) //gelen harfe gore baktigi yonu beli
 		data->dirx = 1;
 		data->diry = 0;
 		data->planex = 0;
-		data->planey = -0.66;
+		data->planey = 0.66;
 	}	
 	else if (c == 'S')
 	{
@@ -403,7 +400,7 @@ int	player_pos_finder(t_data *data, char c) //gelen harfe gore baktigi yonu beli
 		data->dirx = -1;
 		data->diry = 0;
 		data->planex = 0;
-		data->planey = 0.66;
+		data->planey = -0.66;
 	}
 	else
         {
@@ -499,7 +496,7 @@ void	second_map_check(t_data *data)
 void	map_control(t_data *data)
 {
 	possible_char_check(data);
-    data->map_data[data->mapy][data->mapx] = '0';
+    data->map_data[(int)data->pos_y][(int)data->pos_x] = '0';
 	flood_fill(data, data->pos_x, data->pos_y, '0');
 	second_map_check(data);
 }
@@ -517,7 +514,7 @@ void    init(t_data *data)
 	data->sidecolor[N] = (65536 * 208) + (256 * 139) + (96);
 	data->sidecolor[E] = (65536 * 239) + (256 * 218) + (165);
 	data->sidecolor[S] = (65536 * 218) + (256 * 174) + (149);
-	data->sidecolor[W] = (65536 * 121) + (256 * 125) + (98);
+	data->sidecolor[W] = (65536 * 208) + (256 * 125) + (98);
 }
 
 int main(int ac, char *av[])
@@ -535,7 +532,49 @@ int main(int ac, char *av[])
 	mlx_hook(data.win_ptr, 2, (1L << 0), key_press, &data);
 	mlx_hook(data.win_ptr, 17, 0, close_frame, &data); //maske yazılabilir
 	mlx_loop(data.mlx_ptr);
-	// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img_ptr, 0, 0);
     return (0);
 }
 
+//         11111111111111111111111111
+//         1000000000110000000000001
+//         1011000001110000000000001
+//         1001000000000000000000001
+// 111111111011000001110000000000001
+// 100000000011000001110111111111111
+// 11110111111111011100000010001
+// 11110111111111011101010010001
+// 11000000110101011100000010001
+// 10000000000000001100000010001
+// 100000001000000W1101010010001
+// 1100000111000111111101111000111
+// 11110111 1110101 101111010001
+// 11111111 1111111 111111111111
+
+	// else if (c == 'N')
+	// {
+	// 	data->dirx = 0;
+	// 	data->diry = -1;
+	// 	data->planex = -0.66;
+	// 	data->planey = 0;
+	// }
+	// else if (c == 'E')
+	// {
+	// 	data->dirx = 1;
+	// 	data->diry = 0;
+	// 	data->planex = 0;
+	// 	data->planey = -0.66;
+	// }	
+	// else if (c == 'S')
+	// {
+	// 	data->dirx = 0;
+	// 	data->diry = 1;
+	// 	data->planex = 0.66;
+	// 	data->planey = 0;
+	// }	
+	// else if (c == 'W')
+	// {
+	// 	data->dirx = -1;
+	// 	data->diry = 0;
+	// 	data->planex = 0;
+	// 	data->planey = 0.66;
+	// }

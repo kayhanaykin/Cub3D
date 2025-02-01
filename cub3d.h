@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kayhana42istanbul@gmail.com>       +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/31 14:59:43 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/01 13:17:20 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "libft/libft.h"
 #include "minilibx-linux/mlx.h"
 #include <fcntl.h>
+#include <math.h> //sqrt
 
 typedef struct s_data
 {
@@ -85,13 +86,14 @@ enum	directions
 
 # define PI 3.14159
 # define UP 119
-# define DOWN 97
-# define LEFT 115
+# define DOWN 115
+# define LEFT 97
 # define RIGHT 100
 # define L_ROTATE 65363
 # define R_ROTATE 65361
 # define ESC 27
 
+void print_map(t_data *data);
 void	create_window(t_data *data);
 void	create_image(t_data *data);
 void	set_background(t_data *data);
