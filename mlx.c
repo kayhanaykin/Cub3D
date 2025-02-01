@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:18:59 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/01 13:18:14 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/01 14:30:23 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,18 +150,18 @@ void	raycaster(t_data *data)
 			data->sidedistx += data->deltadistx;
 			data->mapx += data->stepx;
 			if (data->stepx == -1)
-				data->side = W;
-			else
 				data->side = E;
+			else
+				data->side = W;
 		}
 		else
 		{
 			data->sidedisty += data->deltadisty;
 			data->mapy += data->stepy;
 			if (data->stepy == -1)
-				data->side = N;
-			else
 				data->side = S;
+			else
+				data->side = N;
 		}
 		if (data->map_data[data->mapy][data->mapx] == 'W')
 		{

@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/01 12:39:45 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/01 14:19:35 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,7 +378,7 @@ int	player_pos_finder(t_data *data, char c) //gelen harfe gore baktigi yonu beli
 	{
 		data->dirx = 0;
 		data->diry = -1;
-		data->planex = -0.66;
+		data->planex = 0.66;
 		data->planey = 0;
 	}
 	else if (c == 'E')
@@ -392,7 +392,7 @@ int	player_pos_finder(t_data *data, char c) //gelen harfe gore baktigi yonu beli
 	{
 		data->dirx = 0;
 		data->diry = 1;
-		data->planex = 0.66;
+		data->planex = -0.66;
 		data->planey = 0;
 	}	
 	else if (c == 'W')
@@ -426,8 +426,8 @@ void	possible_char_check(t_data *data)
 		{
 			if (player_pos_finder(data, data->map_data[i][j])) //pozisyonu alıyoruz
 			{
-				data->pos_x = j;
-				data->pos_y = i;
+				data->pos_x = j + 0.5f;
+				data->pos_y = i + 0.5f;
 			}
 			if (data->map_data[i][j] != '\0' && data->map_data[i][j] != ' ')
 				data->total_char_count++;
@@ -549,6 +549,13 @@ int main(int ac, char *av[])
 // 1100000111000111111101111000111
 // 11110111 1110101 101111010001
 // 11111111 1111111 111111111111
+
+
+// 111111
+// 100101
+// 101001
+// 1100N1
+// 111111
 
 	// else if (c == 'N')
 	// {
