@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/01 14:19:35 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/01 15:48:11 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -508,8 +508,8 @@ void    init(t_data *data)
     if (!data->meta_data)
         error_handler(data, "Error: Allocation Error");
     // Initialize other necessary fields
-    data->window_height = 768;  // Add default values if needed
-    data->window_width = 1024;
+    data->window_height = 1440;  // Add default values if needed
+    data->window_width = 1440;
     data->offset_line_count = 0;
 	data->sidecolor[N] = (65536 * 208) + (256 * 139) + (96);
 	data->sidecolor[E] = (65536 * 239) + (256 * 218) + (165);
