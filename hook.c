@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:36:45 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/01 15:20:50 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/01 15:40:40 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,42 @@ static void	do_key(int key, t_data *data)
 	double	olddirx;
 	double	rotspeed;
 	double	oldplanex;
-
+	double	temp_x;
+	double	temp_y;
+	double 	epsilon;
+	
+	temp_x = data->pos_x;
+	temp_y = data->pos_y;
+	epsilon = 0.1;
 	rotspeed = 0.1;
 	if (key == LEFT)
 	{
-		data->pos_x += data->diry * 0.1;
-		data->pos_y += -1 * data->dirx * 0.1;
+		temp_x += data->diry * 0.1;
+		temp_y += -1 * data->dirx * 0.1;
 	}
 	if (key == RIGHT)
 	{
-		data->pos_x += -1  * data->diry * 0.1;
-		data->pos_y += data->dirx * 0.1;
+		temp_x += -1  * data->diry * 0.1;
+		temp_y += data->dirx * 0.1;
 	}
 	if (key == DOWN)
 	{
-		data->pos_x -= data->dirx * 0.1;
-		data->pos_y -= data->diry * 0.1;
+		temp_x -= data->dirx * 0.1;
+		temp_y -= data->diry * 0.1;
 	}
 	if (key == UP)
 	{
-		data->pos_x += data->dirx * 0.1;
-		data->pos_y += data->diry * 0.1;
+		temp_x += data->dirx * 0.1;
+		temp_y += data->diry * 0.1;
+	}
+	temp_x += data->raydirx * epsilon;
+	temp_y += data->raydiry * epsilon;
+	if (data->map_data[(int)temp_y][(int)temp_x] != 'W')
+	{
+		temp_x -= data->raydirx * epsilon;
+		temp_y -= data->raydiry * epsilon;
+		data->pos_x = temp_x;
+		data->pos_y = temp_y;
 	}
 	if (key == L_ROTATE)
 	{
