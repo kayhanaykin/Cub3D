@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:18:59 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/01 14:30:23 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/02 13:39:51 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,27 @@ void	calculate_step(t_data *data)
 }
 void	put_vertical_line_to_image(t_data *data, int x, int drawstart, int drawend)
 {
-	char 	*dst;
-	while (drawstart < drawend)
+	char	*dst;
+	int		wall_height;
+	double	y_ratio;
+	double  x_ratio;
+	int 	i;
+	
+	i = 0;
+	wall_height = drawend - drawstart;
+	y_ratio = (double) wall_height / data->text_height[data->side];
+	while (i < drawend - drawstart)
 	{
-		// printf("drawned:%d\n", drawstart);
-		dst = data->addr_ptr + (drawstart) * data->size_line + (x * 4);
-		*(unsigned int *) dst = data->sidecolor[data->side];
-		drawstart++;
+		dst = data->addr_ptr + (drawstart + i) * data->size_line + (x * 4);
+
+		
+		*(int *) dst = *(int *)(data->text_address[data->side] + ((int)((i) / y_ratio) * //y yonü
+		 data->text_width[data->side] * 4) 
+		 
+		 +(int) (x % 64) * 4); //x yonü
+
+		
+		i++;
 	}
 }
 

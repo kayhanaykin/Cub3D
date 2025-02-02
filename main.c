@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/01 15:48:11 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/02 13:13:05 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void arg_check(int ac, char *av[])
     if (len < 5 || av[1][len - 1] != 'b' || av[1][len - 2] != 'u' 
         || av[1][len - 3] != 'c' || av[1][len - 4] != '.')
         error_handler(NULL, "Improper file");
+    if (access(av[1], F_OK | R_OK) != 0)
+        error_handler(NULL, "Non-existing or unreadable file");
     return ;
 }
 
@@ -122,7 +124,7 @@ void    check_meta_data(t_data *data)
     while (i < 6)
     {
         if (data->meta_data[i] == NULL)
-            error_handler(data, "Incorrect Metadata1");
+            error_handler(data, "Incorrect Metadata");
         if (i < 4 && access(data->meta_data[i], F_OK | R_OK) != 0)
             error_handler(data, "Non-existing or unreadable file");
         i++;
@@ -155,11 +157,11 @@ void    get_element(t_data *data, char **str)
         else if (str[i][0] == 'C' && !str[i][1])
             data->meta_data[C] = ft_strdup(str[i + 1]); 
 		else
-			error_handler(data, "Incorrect Metadata2");
+			error_handler(data, "Incorrect Metadata"); // gelen NO yerine GG olursa patliyor
         i += 2; 
     }
 	if (str[i])
-		error_handler(data, "Incorrect Metadata3");
+		error_handler(data, "Incorrect Metadata"); // iki iki aliyor. fakat ucuncu bir  kalıntı vasrsa patliyor NO ./texture/wall_n.xpm SO ./texture/asdasd.xpm d 
 }
 
 int		all_white_space(char *str)
@@ -435,6 +437,9 @@ void	possible_char_check(t_data *data)
 		}
 		i++;
 	}
+    if (data->pos_x == 0)
+        error_handler(data, "Non-existing player");
+    
 }
 
 int	border_check(t_data *data, int x, int y) // kose kontrolu yaptik
@@ -511,10 +516,36 @@ void    init(t_data *data)
     data->window_height = 1440;  // Add default values if needed
     data->window_width = 1440;
     data->offset_line_count = 0;
-	data->sidecolor[N] = (65536 * 208) + (256 * 139) + (96);
-	data->sidecolor[E] = (65536 * 239) + (256 * 218) + (165);
-	data->sidecolor[S] = (65536 * 218) + (256 * 174) + (149);
-	data->sidecolor[W] = (65536 * 208) + (256 * 125) + (98);
+	// data->sidecolor[N] = (65536 * 208) + (256 * 139) + (96);
+	// data->sidecolor[S] = (65536 * 218) + (256 * 174) + (149);
+	// data->sidecolor[W] = (65536 * 208) + (256 * 125) + (98);
+	// data->sidecolor[E] = (65536 * 239) + (256 * 218) + (165);
+}
+void    create_texture(t_data *data)
+{
+    int bpp;
+    int sl;
+    int e;
+    data->identifier[NO] = mlx_xpm_file_to_image(data->mlx_ptr, data->meta_data[NO],
+        &data->text_width[NO], &data->text_height[NO]);
+    data->identifier[SO] = mlx_xpm_file_to_image(data->mlx_ptr, data->meta_data[SO],
+        &data->text_width[SO], &data->text_height[SO]);
+    data->identifier[WE] = mlx_xpm_file_to_image(data->mlx_ptr, data->meta_data[WE],
+        &data->text_width[WE], &data->text_height[WE]);
+    data->identifier[EA] = mlx_xpm_file_to_image(data->mlx_ptr, data->meta_data[EA],
+        &data->text_width[EA], &data->text_height[EA]);
+    data->text_address[NO] = (int*)mlx_get_data_addr(data->identifier[NO], &bpp, &sl, &e);
+    data->text_address[SO] = (int*)mlx_get_data_addr(data->identifier[SO], &bpp, &sl, &e);
+    data->text_address[WE] = (int*)mlx_get_data_addr(data->identifier[WE], &bpp, &sl, &e);
+    data->text_address[EA] = (int*)mlx_get_data_addr(data->identifier[EA], &bpp, &sl, &e);
+    printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[NO], data->text_height[NO]);
+printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[SO], data->text_height[SO]);
+printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[WE], data->text_height[WE]);
+printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[EA], data->text_height[EA]);
+printf("sl:%d, e:%d\n", sl, e);
+printf("e:%d\n", data->endian);
+    mlx_pixel_put(data->mlx_ptr, data->win_ptr, 300, 300, data->text_address[NO]);
+
 }
 
 int main(int ac, char *av[])
@@ -526,6 +557,7 @@ int main(int ac, char *av[])
 	map_control(&data);
 	create_window(&data);
 	create_image(&data);
+    create_texture(&data);
 	set_background(&data);
 	set_wall(&data);
 	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img_ptr, 0, 0);

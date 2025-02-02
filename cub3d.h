@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/01 15:21:00 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/02 13:13:59 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,19 @@ typedef struct s_data
 	int		sidecolor[4];
 	int		mapx;
 	int		mapy;
+	void	*identifier[4];
+	void	*text_address[4];
+	int		text_height[4];
+	int		text_width[4];
+	
 } t_data;
 
 enum	identifiers
 {
     NO,
+    EA,
     SO,
     WE,
-    EA,
     F,
     C
 };
