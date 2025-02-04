@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/02 13:13:05 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/04 15:57:52 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -538,14 +538,12 @@ void    create_texture(t_data *data)
     data->text_address[SO] = (int*)mlx_get_data_addr(data->identifier[SO], &bpp, &sl, &e);
     data->text_address[WE] = (int*)mlx_get_data_addr(data->identifier[WE], &bpp, &sl, &e);
     data->text_address[EA] = (int*)mlx_get_data_addr(data->identifier[EA], &bpp, &sl, &e);
-    printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[NO], data->text_height[NO]);
-printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[SO], data->text_height[SO]);
-printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[WE], data->text_height[WE]);
-printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[EA], data->text_height[EA]);
-printf("sl:%d, e:%d\n", sl, e);
-printf("e:%d\n", data->endian);
-    mlx_pixel_put(data->mlx_ptr, data->win_ptr, 300, 300, data->text_address[NO]);
-
+//     printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[NO], data->text_height[NO]);
+// printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[SO], data->text_height[SO]);
+// printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[WE], data->text_height[WE]);
+// printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[EA], data->text_height[EA]);
+// printf("sl:%d, e:%d\n", sl, e);
+// printf("e:%d\n", data->endian);
 }
 
 int main(int ac, char *av[])

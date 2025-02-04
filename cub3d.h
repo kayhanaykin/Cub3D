@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/02 13:13:59 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/04 14:46:23 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ void	put_vertical_line(t_data *data, int x);
 void	set_wall(t_data *data);
 void 	set_background(t_data *data);
 void	raycaster(t_data *data);
+double 	tex_x_coord(t_data *data);
 
 #endif

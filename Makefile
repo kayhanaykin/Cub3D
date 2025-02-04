@@ -6,7 +6,7 @@
 #    By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:48:10 by kaykin            #+#    #+#              #
-#    Updated: 2025/02/02 12:06:15 by kaykin           ###   ########.fr        #
+#    Updated: 2025/02/04 12:53:50 by kaykin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,11 +47,11 @@ fclean: clean
 
 re: fclean all
 
-run1: 
+run1: re
 			./$(NAME) ./test_maps/test.cub
 
-run2: 
-			./$(NAME) ./test_maps/20-60.cub
+run2: re
+			./$(NAME) ./test_maps/square.cub
 
 	
 .PHONY: all clean fclean re
