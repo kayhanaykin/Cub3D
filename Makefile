@@ -6,7 +6,7 @@
 #    By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:48:10 by kaykin            #+#    #+#              #
-#    Updated: 2025/02/04 12:53:50 by kaykin           ###   ########.fr        #
+#    Updated: 2025/02/04 16:13:31 by kaykin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ seg: $(OBJS)
 $(NAME): $(OBJS) 
 	make -s -C $(DIR_LIBFT)
 	make -s -C $(DIR_LIBMLX) CFLAGS+="$(EXTRA_FLAGS)"
-	$(CC) $(FLAGS) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME) -v
 
 clean:                                                             
 			rm -f $(OBJS)

@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/04 15:57:52 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/04 16:33:01 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,9 +270,37 @@ void check_rgb(t_data *data, char **word)
 		error_handler(data, "Error: Incorrect RGB Value");
 }
 
+void    comma_check(t_data *data)
+{
+    int i;
+    int count;
+
+    i = 0;
+    count = 0;
+    while (data->meta_data[F][i])
+    {
+        if (data->meta_data[F][i] == ',')
+            count++;
+        i++;
+    }
+    if (count != 2)
+        error_handler(data, "Improper file");
+    i = 0;
+    count = 0;
+    while (data->meta_data[C][i])
+    {
+        if (data->meta_data[C][i] == ',')
+            count++;
+        i++;
+    }
+    if (count != 2)
+        error_handler(data, "Improper file");
+}
+
 void	get_color(t_data *data)
 {
     char **word;
+    comma_check(data);
     word = ft_split(data->meta_data[F], ',');
     check_rgb(data, word);
     data->floor_color = (65536 * ft_atoi(word[0])) + 
@@ -283,6 +311,22 @@ void	get_color(t_data *data)
 
 }
 
+void    extension_access_check(char *str)
+{
+    int len;
+    
+    len = ft_strlen(str);
+    if (len < 5 || str[len - 1] != 'm' || str[len - 2] != 'p' 
+        || str[len - 3] != 'x' || str[len - 4] != '.')
+        error_handler(NULL, "Improper file");
+}
+void    xpm_check(t_data *data)
+{
+    extension_access_check(data->meta_data[NO]);
+    extension_access_check(data->meta_data[SO]);
+    extension_access_check(data->meta_data[WE]);
+    extension_access_check(data->meta_data[EA]);
+}
 void    get_meta_data(t_data *data, int fd)
 {
     int     count;
@@ -307,7 +351,7 @@ void    get_meta_data(t_data *data, int fd)
         count++;
         free_words(words);
     }
-    
+    xpm_check(data);
     check_meta_data(data);
     get_color(data);
 }
@@ -516,10 +560,6 @@ void    init(t_data *data)
     data->window_height = 1440;  // Add default values if needed
     data->window_width = 1440;
     data->offset_line_count = 0;
-	// data->sidecolor[N] = (65536 * 208) + (256 * 139) + (96);
-	// data->sidecolor[S] = (65536 * 218) + (256 * 174) + (149);
-	// data->sidecolor[W] = (65536 * 208) + (256 * 125) + (98);
-	// data->sidecolor[E] = (65536 * 239) + (256 * 218) + (165);
 }
 void    create_texture(t_data *data)
 {
@@ -538,12 +578,6 @@ void    create_texture(t_data *data)
     data->text_address[SO] = (int*)mlx_get_data_addr(data->identifier[SO], &bpp, &sl, &e);
     data->text_address[WE] = (int*)mlx_get_data_addr(data->identifier[WE], &bpp, &sl, &e);
     data->text_address[EA] = (int*)mlx_get_data_addr(data->identifier[EA], &bpp, &sl, &e);
-//     printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[NO], data->text_height[NO]);
-// printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[SO], data->text_height[SO]);
-// printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[WE], data->text_height[WE]);
-// printf("&data->text_width[NO], &data->text_height[NO]%d, %d\n", data->text_width[EA], data->text_height[EA]);
-// printf("sl:%d, e:%d\n", sl, e);
-// printf("e:%d\n", data->endian);
 }
 
 int main(int ac, char *av[])
@@ -564,54 +598,3 @@ int main(int ac, char *av[])
 	mlx_loop(data.mlx_ptr);
     return (0);
 }
-
-//         11111111111111111111111111
-//         1000000000110000000000001
-//         1011000001110000000000001
-//         1001000000000000000000001
-// 111111111011000001110000000000001
-// 100000000011000001110111111111111
-// 11110111111111011100000010001
-// 11110111111111011101010010001
-// 11000000110101011100000010001
-// 10000000000000001100000010001
-// 100000001000000W1101010010001
-// 1100000111000111111101111000111
-// 11110111 1110101 101111010001
-// 11111111 1111111 111111111111
-
-
-// 111111
-// 100101
-// 101001
-// 1100N1
-// 111111
-
-	// else if (c == 'N')
-	// {
-	// 	data->dirx = 0;
-	// 	data->diry = -1;
-	// 	data->planex = -0.66;
-	// 	data->planey = 0;
-	// }
-	// else if (c == 'E')
-	// {
-	// 	data->dirx = 1;
-	// 	data->diry = 0;
-	// 	data->planex = 0;
-	// 	data->planey = -0.66;
-	// }	
-	// else if (c == 'S')
-	// {
-	// 	data->dirx = 0;
-	// 	data->diry = 1;
-	// 	data->planex = 0.66;
-	// 	data->planey = 0;
-	// }	
-	// else if (c == 'W')
-	// {
-	// 	data->dirx = -1;
-	// 	data->diry = 0;
-	// 	data->planex = 0;
-	// 	data->planey = 0.66;
-	// }
