@@ -1,8 +1,16 @@
-#include "../libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 15:45:35 by kaykin            #+#    #+#             */
+/*   Updated: 2025/02/05 15:45:52 by kaykin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#ifndef BUFFER_SIZE
-#define BUFFER_SIZE 1024
-#endif
+#include "../libft.h"
 
 static int	read_file(int fd, char **remainder, char *buffer)
 {

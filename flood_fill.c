@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:53:41 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/05 12:21:38 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/05 16:17:50 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,13 @@ void	map_control(t_data *data)
     data->map_data[(int)data->pos_y][(int)data->pos_x] = '0';
 	flood_fill(data, data->pos_x, data->pos_y, '0');
 	second_map_check(data);
+}
+
+void	cross_check(t_data *data, int x, int y)
+{
+	if (x == -1 || x == data->max_line_length || y == -1
+		|| y == data->line_count)
+		error_handler(data, "Error: Unclosed map");
+	if (data->map_data[y][x] == ' ')
+		error_handler(data, "Error: Unclosed map");
 }

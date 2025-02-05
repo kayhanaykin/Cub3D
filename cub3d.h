@@ -6,44 +6,44 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/05 15:24:49 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/05 16:03:00 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
-#define CUB3D_H
+# define CUB3D_H
 
-#include <stdio.h> // printf
-#include <stdlib.h> //malloc-exit
-#include <stddef.h> //NULL
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <fcntl.h>
-#include <math.h> //sqrt
+# include <stdio.h> // printf
+# include <stdlib.h> //malloc-exit
+# include <stddef.h> //NULL
+# include "libft/libft.h"
+# include "minilibx-linux/mlx.h"
+# include <fcntl.h>
+# include <math.h> //sqrt
 
 typedef struct s_data
 {
-    int		fd;
-	char    **meta_data;
-    char    **map_data;
-    int     offset_line_count;
-	int		multiple_map_count; //double map var mı kontrolü, playerın olduğu mapin karakter sayısı
-    int		total_char_count; // whitespace olmayan karakter sayısı text dosyasında
+	int		fd;
+	char	**meta_data;
+	char	**map_data;
+	int		offset_line_count;
+	int		multiple_map_count;
+	int		total_char_count;
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*img_ptr;
 	void	*addr_ptr;
 	int		floor_color;
 	int		ceiling_color;
-    int		endian;
-    int		window_height;
+	int		endian;
+	int		window_height;
 	int		window_width;
-    int		bits_per_pixel; //32
+	int		bits_per_pixel;
 	int		size_line;
-    int     line_count;
-    int     max_line_length;
-    double  pos_x;
-    double  pos_y;
+	int		line_count;
+	int		max_line_length;
+	double	pos_x;
+	double	pos_y;
 	double	dirx;
 	double	diry;
 	double	planex;
@@ -57,7 +57,7 @@ typedef struct s_data
 	double	sidedisty;
 	double	deltadistx;
 	double	deltadisty;
-	double	perpwalldist;	
+	double	perpwalldist;
 	int		stepx;
 	int		stepy;
 	int		hit;
@@ -69,19 +69,19 @@ typedef struct s_data
 	void	*text_address[4];
 	int		text_height[4];
 	int		text_width[4];
-} t_data;
+}	t_data;
 
-enum	identifiers
+enum	e_identifiers
 {
-    NO,
-    EA,
-    SO,
-    WE,
-    F,
-    C
+	NO,
+	EA,
+	SO,
+	WE,
+	F,
+	C
 };
 
-enum	directions
+enum	e_directions
 {
 	N,
 	E,
@@ -98,23 +98,22 @@ enum	directions
 # define R_ROTATE 65361
 # define ESC 65307
 
-
 //hook.c
-int	key_press(int key, t_data *data);
-int	close_frame(t_data *data);
+int		key_press(int key, t_data *data);
+int		close_frame(t_data *data);
 
 //parser.c
-void    get_element(t_data *data, char **str);
-void    get_meta_data(t_data *data, int fd);
-void    get_map_size(t_data *data, int fd);
-void    get_map_data(t_data *data, int fd);
-void    map_offset(t_data *data, int fd);
+void	get_element(t_data *data, char **str);
+void	get_meta_data(t_data *data, int fd);
+void	get_map_size(t_data *data, int fd);
+void	get_map_data(t_data *data, int fd);
+void	map_offset(t_data *data, int fd);
 
 //flood_fill_utils.c
 int		player_pos_finder(t_data *data, char c);
 void	possible_char_check(t_data *data);
 int		border_check(t_data *data, int x, int y);
-void    cross_check(t_data *data, int x, int y);
+void	cross_check(t_data *data, int x, int y);
 
 //flood_fill.c
 void	flood_fill(t_data *data, int x, int y, char c);
@@ -122,7 +121,7 @@ void	second_map_check(t_data *data);
 void	map_control(t_data *data);
 
 //create.c
-void    create_texture(t_data *data);
+void	create_texture(t_data *data);
 void	create_window(t_data *data);
 void	create_image(t_data *data);
 
@@ -133,34 +132,35 @@ void	calculate_step(t_data *data);
 void	set_wall(t_data *data);
 
 //raycaster_utils.c
-double 	tex_x_coord(t_data *data);
-void	put_vertical_line_to_image(t_data *data, int x, int drawstart, int drawend);
+double	tex_x_coord(t_data *data);
+void	put_vertical_line_to_image(t_data *data, int x,
+			int drawstart, int drawend);
 void	put_vertical_line(t_data *data, int x);
-void 	set_background(t_data *data);
+void	set_background(t_data *data);
 
 //color.c
 int		atoi_cub3d(t_data *data, const char *str);
-void 	check_rgb(t_data *data, char **word);
-void    comma_check(t_data *data);
+void	check_rgb(t_data *data, char **word);
+void	comma_check(t_data *data);
 void	get_color(t_data *data);
 
 //check.c
 void	error_handler(t_data *data, char *msg);
-int     check_meta_data_inter(t_data *data);
-void    check_meta_data(t_data *data);
-void    extension_access_check(t_data *data, char *str);
-void    xpm_check(t_data *data);
+int		check_meta_data_inter(t_data *data);
+void	check_meta_data(t_data *data);
+void	extension_access_check(t_data *data, char *str);
+void	xpm_check(t_data *data);
 
 //main_utils.c
 int		all_white_space(char *str);
 int		is_white_space(char c);
-void    copy_line(char **map_data, char *line, int line_no);
-void    replace_white_s_with_s(char *str);
-void    free_words(char **words);
+void	copy_line(char **map_data, char *line, int line_no);
+void	replace_white_s_with_s(char *str);
+void	free_words(char **words);
 
 //Main.c
-void 	arg_check(int ac, char *av[]);
-void    parser(t_data *data, char *av);
-void    init(t_data *data);
+void	arg_check(int ac, char *av[]);
+void	parser(t_data *data, char *av);
+void	init(t_data *data);
 
 #endif
