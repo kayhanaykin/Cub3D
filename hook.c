@@ -6,45 +6,11 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:36:45 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/05 11:40:29 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/05 12:40:53 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// static void	sway_sign(t_data *data) //default sol
-// {
-// 	if (data->dirx < 0)
-// 	{
-// 		if (data->diry < 0)
-// 		{
-// 			data->sign_x = 1;
-// 			data->sign_y = -1;
-// 			printf("a\n");
-// 		}
-// 		else
-// 		{
-// 			data->sign_x = 1;
-// 			data->sign_y = -1;
-// 			printf("b\n");
-// 		}
-// 	}
-// 	else
-// 	{
-// 		if (data->diry < 0)
-// 		{
-// 			data->sign_x = 1;
-// 			data->sign_y = -1;
-// 			printf("c\n");
-// 		}
-// 		else
-// 		{
-// 			data->sign_x = 1;
-// 			data->sign_y = -1;
-// 			printf("d\n");
-// 		}
-// 	}
-// }
 
 static void	do_key(int key, t_data *data)
 {
@@ -118,7 +84,7 @@ int	key_press(int key, t_data *data)
 	{
 		mlx_destroy_image(data->mlx_ptr, data->img_ptr);
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		exit((0));
+		error_handler(data, NULL);
 	}
 	if (key == LEFT || key == RIGHT || key == DOWN || key == UP
 		|| key == R_ROTATE || key == L_ROTATE)
@@ -135,4 +101,10 @@ int	key_press(int key, t_data *data)
 	return (0);
 }
 
-
+int	close_frame(t_data *data)
+{
+	mlx_destroy_image(data->mlx_ptr, data->img_ptr);
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	error_handler(data, NULL);
+	return (0);
+}

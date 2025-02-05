@@ -1,103 +1,24 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 12:11:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/30 18:37:13 by kaykin           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../libft.h"
 
-int	ft_strlen_gnl(char *stock)
+char	*get_line(char **remainder)
 {
-	int	i;
-
-	i = 0;
-	if (!stock)
-		return (0);
-	while (stock[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strdup_gnl(char *stock, int len)
-{
+	char	*line;
+	char	*newline_pos;
 	char	*temp;
-	int		i;
 
-	if (!stock || !len)
-		return (NULL);
-	i = 0;
-	temp = (char *)malloc((len + 1) * sizeof(char));
-	while (i < len)
+	newline_pos = ft_strchr(*remainder, '\n');
+	if (newline_pos)
 	{
-		temp[i] = stock[i];
-		i++;
+		line = ft_substr(*remainder, 0, newline_pos - *remainder + 1);
+		temp = ft_strdup(newline_pos + 1);
+		free(*remainder);
+		*remainder = temp;
 	}
-	temp[i] = '\0';
-	return (temp);
-}
-
-char	*ft_strjoin_gnl(char *stock, char *buff)
-{
-	size_t	i;
-	int		len;
-	char	*temp;
-
-	i = 0;
-	len = ft_strlen_gnl(buff);
-	if (!stock)
-		return (ft_strdup_gnl(buff, len));
-	len = len + ft_strlen_gnl(stock);
-	temp = (char *)malloc(sizeof(char) * (len + 1));
-	if (!temp)
-		return (NULL);
-	len = 0;
-	while (stock[i])
-		temp[len++] = stock[i++];
-	i = 0;
-	while (buff[i])
-		temp[len++] = buff[i++];
-	temp[len] = '\0';
-	free(stock);
-	return (temp);
-}
-
-int	ft_find_nl(char	*stock)
-{
-	int		i;
-
-	if (!stock)
-		return (0);
-	i = 0;
-	while (stock[i])
-		if (stock[i++] == '\n')
-			return (1);
-	return (0);
-}
-
-char	*extract_line(char **stock)
-{
-	int		n_loc;
-	char	*next_line;
-	char	*ptr;
-
-	if (!*stock)
-		return (NULL);
-	ptr = *stock;
-	n_loc = 0;
-	while (ptr[n_loc] && ptr[n_loc] != '\n')
-		n_loc++;
-	if (ptr[n_loc] == '\n')
-		n_loc++;
-	next_line = ft_strdup_gnl(ptr, n_loc);
-	*stock = ft_strdup_gnl(ptr + n_loc, ft_strlen_gnl(ptr + n_loc));
-	if (ptr)
-		free(ptr);
-	ptr = NULL;
-	return (next_line);
+	else
+	{
+		line = ft_strdup(*remainder);
+		free(*remainder);
+		*remainder = NULL;
+	}
+	return (line);
 }

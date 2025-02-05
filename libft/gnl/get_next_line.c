@@ -1,51 +1,48 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 12:11:33 by kaykin            #+#    #+#             */
-/*   Updated: 2025/01/30 18:37:19 by kaykin           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../libft.h"
 
-void	ft_read(int fd, char *buff, char **stock)
-{
-	int	read_size;
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 1024
+#endif
 
-	read_size = 1;
-	while (read_size > 0)
-	{
-		read_size = read(fd, buff, BUFFER_SIZE);
-		buff[read_size] = '\0';
-		*stock = ft_strjoin_gnl(*stock, buff);
-		if (ft_find_nl(*stock))
-			break ;
-	}
-	if (buff)
-		free(buff);
-	buff = NULL;
+static int	read_file(int fd, char **remainder, char *buffer)
+{
+	ssize_t	bytes_read;
+	char	*temp;
+
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	if (bytes_read <= 0)
+		return (bytes_read);
+	buffer[bytes_read] = '\0';
+	if (!*remainder)
+		*remainder = ft_strdup("");
+	temp = ft_strjoin(*remainder, buffer);
+	free(*remainder);
+	*remainder = temp;
+	return (bytes_read);
 }
 
 char	*get_next_line(int fd)
 {
-	static char		*stock;
-	char			*buff;
+	static char	*remainder;
+	char		*buffer;
+	char		*line;
+	ssize_t		bytes_read;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (NULL);
+	if (!remainder || !ft_strchr(remainder, '\n'))
 	{
-		free(stock);
-		stock = NULL;
-		return (NULL);
+		bytes_read = read_file(fd, &remainder, buffer);
+		if (bytes_read <= 0 && !remainder)
+		{
+			free(buffer);
+			return (NULL);
+		}
 	}
-	if (ft_find_nl(stock))
-		return (extract_line(&stock));
-	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buff)
-		return (NULL);
-	ft_read (fd, buff, &stock);
-	return (extract_line(&stock));
+	free(buffer);
+	line = get_line(&remainder);
+	return (line);
 }
