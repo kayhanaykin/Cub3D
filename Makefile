@@ -6,7 +6,7 @@
 #    By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:48:10 by kaykin            #+#    #+#              #
-#    Updated: 2025/02/04 16:13:31 by kaykin           ###   ########.fr        #
+#    Updated: 2025/02/05 11:45:13 by kaykin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,9 @@ fclean: clean
 			make -C $(DIR_LIBFT) fclean
 			make -C $(DIR_LIBMLX) clean
 
+clear:
+	clear
+
 re: fclean all
 
 run1: re
@@ -52,6 +55,9 @@ run1: re
 
 run2: re
 			./$(NAME) ./test_maps/square.cub
+
+valg: re
+			valgrind ./$(NAME) ./test_maps/test.cub
 
 	
 .PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/04 16:33:01 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/05 11:36:07 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,11 +157,11 @@ void    get_element(t_data *data, char **str)
         else if (str[i][0] == 'C' && !str[i][1])
             data->meta_data[C] = ft_strdup(str[i + 1]); 
 		else
-			error_handler(data, "Incorrect Metadata"); // gelen NO yerine GG olursa patliyor
+			error_handler(data, "Incorrect Metadata3"); // gelen NO yerine GG olursa patliyor
         i += 2; 
     }
 	if (str[i])
-		error_handler(data, "Incorrect Metadata"); // iki iki aliyor. fakat ucuncu bir  kalıntı vasrsa patliyor NO ./texture/wall_n.xpm SO ./texture/asdasd.xpm d 
+		error_handler(data, "Incorrect Metadata2"); // iki iki aliyor. fakat ucuncu bir  kalıntı vasrsa patliyor NO ./texture/wall_n.xpm SO ./texture/asdasd.xpm d 
 }
 
 int		all_white_space(char *str)
@@ -226,25 +226,17 @@ int	atoi_cub3d(t_data *data, const char *str)
 	int		i;
 	int		mult;
 	int		nb;
+    int     digit_count;
 
 	mult = 1;
 	nb = 0;
 	i = 0;
-	while (str[i] == ' ' || str[i] == '\f' || str[i] == '\n'
-		|| str[i] == '\r' || str[i] == '\t' || str[i] == '\v')
-	{
-		i++;
-	}
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			mult *= -1;
-		i++;
-	}
+    digit_count = 0;
 	while (str[i])
 	{
 		if (str[i] >= '0' && str[i] <= '9')
 		{
+            digit_count++;
 			nb = (nb * 10) + (str[i] - '0');
 		}
 		else
@@ -252,6 +244,8 @@ int	atoi_cub3d(t_data *data, const char *str)
 		i++;
 	}
 	nb *= mult;
+    if (digit_count > 3)
+        error_handler(data, "Error: Incorrect RGB Value");
 	return (nb);
 }
 
@@ -306,9 +300,9 @@ void	get_color(t_data *data)
     data->floor_color = (65536 * ft_atoi(word[0])) + 
         (256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
     word = ft_split(data->meta_data[C], ',');
+    check_rgb(data, word);
     data->ceiling_color = (65536 * ft_atoi(word[0])) + 
         (256 * ft_atoi(word[1])) + (ft_atoi(word[2]));
-
 }
 
 void    extension_access_check(char *str)

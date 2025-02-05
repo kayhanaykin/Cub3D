@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/04 16:14:21 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/05 11:39:06 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ enum	directions
 # define RIGHT 100
 # define L_ROTATE 65363
 # define R_ROTATE 65361
-# define ESC 27
+# define ESC 65307
 
 void print_map(t_data *data);
 void	create_window(t_data *data);

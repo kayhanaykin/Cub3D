@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:36:45 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/01 16:03:19 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/05 11:40:29 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int	key_press(int key, t_data *data)
 	{
 		mlx_destroy_image(data->mlx_ptr, data->img_ptr);
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		free(data);
 		exit((0));
 	}
 	if (key == LEFT || key == RIGHT || key == DOWN || key == UP
