@@ -6,11 +6,40 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:57:51 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 11:27:13 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/06 16:43:02 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	create_window(t_data *data)
+{
+	data->mlx_ptr = mlx_init();
+	if (!data->mlx_ptr)
+		error_handler(data, "Mlx display connection cannot be initiated");
+	data->win_ptr = mlx_new_window(data->mlx_ptr, data->window_width,
+			data->window_height, "Kuptridi");
+	if (!data->win_ptr)
+		error_handler(data, "Mlx window cannot be initiated");
+	return ;
+}
+
+void	create_image(t_data *data)
+{
+	int	e;
+	
+	data->img_ptr = mlx_new_image(data->mlx_ptr,
+			data->window_width, data->window_height);
+	if (!data->img_ptr)
+		error_handler(data, "Mlx image cannot be initiated");
+	data->addr_ptr = mlx_get_data_addr(data->img_ptr, &data->bits_per_pixel,
+			&data->size_line, &e);
+	if (!data->addr_ptr)
+	{
+		mlx_destroy_image(data->mlx_ptr, data->img_ptr);
+		error_handler(data, "Mlx image properties cannot be fetched");
+	}
+}
 
 void	create_texture(t_data *data)
 {
@@ -34,34 +63,6 @@ void	create_texture(t_data *data)
 			&bpp, &sl, &e);
 	data->text_address[EA] = (int *) mlx_get_data_addr(data->identifier[EA],
 			&bpp, &sl, &e);
-}
-
-void	create_window(t_data *data)
-{
-	data->mlx_ptr = mlx_init();
-	if (!data->mlx_ptr)
-		error_handler(data,
-			"Error: Mlx display connection cannot be initiated");
-	data->win_ptr = mlx_new_window(data->mlx_ptr, data->window_width,
-			data->window_height, "Kuptridi");
-	if (!data->win_ptr)
-		error_handler(data, "Error: Mlx window cannot be initiated");
-	return ;
-}
-
-void	create_image(t_data *data)
-{
-	data->img_ptr = mlx_new_image(data->mlx_ptr,
-			data->window_width, data->window_height);
-	if (!data->img_ptr)
-		error_handler(data, "Error: Mlx image cannot be initiated");
-	data->addr_ptr = mlx_get_data_addr(data->img_ptr, &data->bits_per_pixel,
-			&data->size_line, &data->endian);
-	if (!data->addr_ptr)
-	{
-		mlx_destroy_image(data->mlx_ptr, data->img_ptr);
-		error_handler(data, "Error: Mlx image properties cannot be fetched");
-	}
 }
 
 int	close_frame(t_data *data)

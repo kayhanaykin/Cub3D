@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:01:59 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 13:40:05 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/06 16:49:43 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ void	set_background(t_data *data)
 	while (i < 4 * (data->window_height * data->window_width) / 2)
 	{
 		dst = data->addr_ptr + i;
-		*(unsigned int *) dst = data->ceiling_color;
+		*(int *) dst = data->ceiling_color;
 		i += data->bits_per_pixel / 8;
 	}
 	while (i < 4 * (data->window_height * data->window_width))
 	{
 		dst = data->addr_ptr + i;
-		*(unsigned int *) dst = data->floor_color;
+		*(int *) dst = data->floor_color;
 		i += data->bits_per_pixel / 8;
 	}
 }

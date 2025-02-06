@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:36:45 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 13:50:35 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/06 15:40:18 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	wall_stop(t_data *data, double *temp_x, double *temp_y)
 {
-	if (data->dist > 0.1)
+	if (data->map_data[(int)*temp_y][(int)*temp_x] != 'W')
 	{
 		data->pos_x = *temp_x;
 		data->pos_y = *temp_y;

@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 11:34:40 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/06 15:43:28 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ void	init(t_data *data)
 	ft_bzero(data, sizeof(t_data));
 	data->meta_data = ft_calloc(6, sizeof(char *));
 	if (!data->meta_data)
-		error_handler(data, "Error: Allocation Error");
-	data->window_height = 1440;
+		error_handler(data, "Allocation Error");
+	data->window_height = 1000;
 	data->window_width = 1440;
-	data->offset_line_count = 0;
 }
 
 void	arg_check(int ac, char *av[])

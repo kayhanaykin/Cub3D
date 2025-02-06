@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 13:48:21 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/06 16:41:43 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,8 @@ void	map_offset(t_data *data, int fd);
 int		player_pos_finder(t_data *data, char c);
 void	possible_char_check(t_data *data);
 int		border_check(t_data *data, int x, int y);
-void	cross_check(t_data *data, int x, int y);
 
 //flood_fill.c
-void	flood_fill(t_data *data, int x, int y, char c);
-void	second_map_check(t_data *data);
 void	map_control(t_data *data);
 
 //create.c
