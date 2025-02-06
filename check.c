@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:09:14 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/05 15:51:51 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/06 11:39:54 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	error_handler(t_data *data, char *msg)
 	exit(1);
 }
 
-int	check_meta_data_inter(t_data *data)
+int	check_meta_data_inter(t_data *data, char **words)
 {
 	int	i;
 
@@ -51,7 +51,10 @@ int	check_meta_data_inter(t_data *data)
 		i++;
 	}
 	if (i == 6)
+	{
+		free_words(words);
 		return (1);
+	}
 	return (0);
 }
 

@@ -6,16 +6,16 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:59:39 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/05 12:01:47 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/06 13:48:07 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 void	raycaster(t_data *data)
-{  
+{
 	while (data->hit == 0)
-    {
+	{
 		if (fabs(data->sidedistx) < fabs(data->sidedisty))
 		{
 			data->sidedistx += data->deltadistx;
@@ -38,18 +38,20 @@ void	raycaster(t_data *data)
 		{
 			data->hit = 1;
 		}
-    }
-	data->hit = 0; 
-	if (data->side == W || data->side == E)	
+	}
+	data->hit = 0;
+	if (data->side == W || data->side == E)
 		data->perpwalldist = (data->sidedistx - data->deltadistx);
-    else  
+	else
 		data->perpwalldist = (data->sidedisty - data->deltadisty);
 }
 
 void	raydir_unitize(t_data *data)
 {
 	double	len;
-	len = sqrt((data->raydirx * data->raydirx) +(data->raydiry * data->raydiry));
+
+	len = sqrt((data->raydirx * data->raydirx)
+			+ (data->raydiry * data->raydiry));
 	data->raydirx /= len;
 	data->raydiry /= len;
 }
@@ -57,37 +59,36 @@ void	raydir_unitize(t_data *data)
 void	calculate_step(t_data *data)
 {
 	data->mapx = (int)data->pos_x;
-    data->mapy = (int)data->pos_y;
+	data->mapy = (int)data->pos_y;
 	if (data->raydirx < 0)
-    {
-        data->stepx = -1;
-        data->sidedistx = (data->pos_x - data->mapx) * data->deltadistx;
-    }
-    else
-    {
-        data->stepx = 1;
-        data->sidedistx = (data->mapx + 1.0 - data->pos_x) * data->deltadistx;
-    }
-    if (data->raydiry < 0)
-    {
-        data->stepy = -1;
-        data->sidedisty = (data->pos_y - data->mapy) * data->deltadisty;
-    }
-    else
-    {
-        data->stepy = 1;
-        data->sidedisty = (data->mapy + 1.0 - data->pos_y) * data->deltadisty;
-    }
+	{
+		data->stepx = -1;
+		data->sidedistx = (data->pos_x - data->mapx) * data->deltadistx;
+	}
+	else
+	{
+		data->stepx = 1;
+		data->sidedistx = (data->mapx + 1.0 - data->pos_x) * data->deltadistx;
+	}
+	if (data->raydiry < 0)
+	{
+		data->stepy = -1;
+		data->sidedisty = (data->pos_y - data->mapy) * data->deltadisty;
+	}
+	else
+	{
+		data->stepy = 1;
+		data->sidedisty = (data->mapy + 1.0 - data->pos_y) * data->deltadisty;
+	}
 }
 
 void	set_wall(t_data *data)
 {
-	float x;
+	float	x;
 
 	x = 0;
-
 	while (x < data->window_width)
-	{ 
+	{
 		data->camerax = 2.0f * x / (float)data->window_width - 1.0f;
 		data->raydirx = data->dirx + data->planex * data->camerax;
 		data->raydiry = data->diry + data->planey * data->camerax;
@@ -96,6 +97,8 @@ void	set_wall(t_data *data)
 		raydir_unitize(data);
 		calculate_step(data);
 		raycaster(data);
+		if (x == data->window_width / 2)
+			data->dist = data->perpwalldist;
 		put_vertical_line(data, x);
 		x++;
 	}

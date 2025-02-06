@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:57:51 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/05 15:57:58 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/06 11:27:13 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,12 @@ void	create_image(t_data *data)
 		mlx_destroy_image(data->mlx_ptr, data->img_ptr);
 		error_handler(data, "Error: Mlx image properties cannot be fetched");
 	}
+}
+
+int	close_frame(t_data *data)
+{
+	mlx_destroy_image(data->mlx_ptr, data->img_ptr);
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	error_handler(data, NULL);
+	return (0);
 }

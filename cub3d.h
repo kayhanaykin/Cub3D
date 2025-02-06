@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/05 16:03:00 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/06 13:48:21 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_data
 	double	deltadistx;
 	double	deltadisty;
 	double	perpwalldist;
+	double	dist;
 	int		stepx;
 	int		stepy;
 	int		hit;
@@ -102,9 +103,11 @@ enum	e_directions
 int		key_press(int key, t_data *data);
 int		close_frame(t_data *data);
 
-//parser.c
+//parser_meta.c
 void	get_element(t_data *data, char **str);
 void	get_meta_data(t_data *data, int fd);
+
+//parser_map.c
 void	get_map_size(t_data *data, int fd);
 void	get_map_data(t_data *data, int fd);
 void	map_offset(t_data *data, int fd);
@@ -146,7 +149,7 @@ void	get_color(t_data *data);
 
 //check.c
 void	error_handler(t_data *data, char *msg);
-int		check_meta_data_inter(t_data *data);
+int		check_meta_data_inter(t_data *data, char **words);
 void	check_meta_data(t_data *data);
 void	extension_access_check(t_data *data, char *str);
 void	xpm_check(t_data *data);
