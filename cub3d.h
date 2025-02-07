@@ -6,20 +6,20 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 16:41:43 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/07 15:57:48 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <stdio.h> // printf
-# include <stdlib.h> //malloc-exit
-# include <stddef.h> //NULL
+# include <stdio.h>
+# include <stdlib.h>
+# include <stddef.h>
 # include "libft/libft.h"
 # include "minilibx-linux/mlx.h"
 # include <fcntl.h>
-# include <math.h> //sqrt
+# include <math.h>
 
 typedef struct s_data
 {
@@ -106,6 +106,7 @@ int		close_frame(t_data *data);
 //parser_meta.c
 void	get_element(t_data *data, char **str);
 void	get_meta_data(t_data *data, int fd);
+int		check_meta_data_inter(t_data *data, char **words);
 
 //parser_map.c
 void	get_map_size(t_data *data, int fd);
@@ -146,10 +147,10 @@ void	get_color(t_data *data);
 
 //check.c
 void	error_handler(t_data *data, char *msg);
-int		check_meta_data_inter(t_data *data, char **words);
 void	check_meta_data(t_data *data);
 void	extension_access_check(t_data *data, char *str);
 void	xpm_check(t_data *data);
+void	free_data(t_data *data);
 
 //main_utils.c
 int		all_white_space(char *str);
@@ -159,7 +160,7 @@ void	replace_white_s_with_s(char *str);
 void	free_words(char **words);
 
 //Main.c
-void	arg_check(int ac, char *av[]);
+void	arg_check(t_data *data, int ac, char *av[]);
 void	parser(t_data *data, char *av);
 void	init(t_data *data);
 

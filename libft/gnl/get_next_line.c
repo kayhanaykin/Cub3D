@@ -5,52 +5,47 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 15:45:35 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/05 15:45:52 by kaykin           ###   ########.fr       */
+/*   Created: 2025/02/07 15:07:31 by kaykin            #+#    #+#             */
+/*   Updated: 2025/02/07 15:07:34 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-static int	read_file(int fd, char **remainder, char *buffer)
+static void	ft_read(int fd, char *buff, char **stock)
 {
-	ssize_t	bytes_read;
-	char	*temp;
+	int	read_size;
 
-	bytes_read = read(fd, buffer, BUFFER_SIZE);
-	if (bytes_read <= 0)
-		return (bytes_read);
-	buffer[bytes_read] = '\0';
-	if (!*remainder)
-		*remainder = ft_strdup("");
-	temp = ft_strjoin(*remainder, buffer);
-	free(*remainder);
-	*remainder = temp;
-	return (bytes_read);
+	read_size = 1;
+	while (read_size > 0)
+	{
+		read_size = read(fd, buff, BUFFER_SIZE);
+		buff[read_size] = '\0';
+		*stock = ft_strjoin_gnl(*stock, buff);
+		if (ft_find_nl(*stock))
+			break ;
+	}
+	if (buff)
+		free(buff);
+	buff = NULL;
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*remainder;
-	char		*buffer;
-	char		*line;
-	ssize_t		bytes_read;
+	static char		*stock;
+	char			*buff;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer)
-		return (NULL);
-	if (!remainder || !ft_strchr(remainder, '\n'))
+	if (fd <= 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
-		bytes_read = read_file(fd, &remainder, buffer);
-		if (bytes_read <= 0 && !remainder)
-		{
-			free(buffer);
-			return (NULL);
-		}
+		free(stock);
+		stock = NULL;
+		return (NULL);
 	}
-	free(buffer);
-	line = get_line(&remainder);
-	return (line);
+	if (ft_find_nl(stock))
+		return (extract_line(&stock));
+	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buff)
+		return (NULL);
+	ft_read (fd, buff, &stock);
+	return (extract_line(&stock));
 }

@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:57:51 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 16:43:02 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:00:13 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	create_window(t_data *data)
 void	create_image(t_data *data)
 {
 	int	e;
-	
+
 	data->img_ptr = mlx_new_image(data->mlx_ptr,
 			data->window_width, data->window_height);
 	if (!data->img_ptr)

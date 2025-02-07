@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:53:41 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 16:41:58 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:00:52 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	map_control(t_data *data)
 	flood_fill(data, data->pos_x, data->pos_y, '0');
 	second_map_check(data);
 }
+
 static void	flood_fill(t_data *data, int x, int y, char c)
 {	
 	if (border_check(data, x, y) || data->map_data[y][x] == ' ')
@@ -50,6 +51,7 @@ static void	flood_fill(t_data *data, int x, int y, char c)
 	flood_fill(data, x, y + 1, data->map_data[y][x]);
 	flood_fill(data, x, y - 1, data->map_data[y][x]);
 }
+
 static void	cross_check(t_data *data, int x, int y)
 {
 	if (x == -1 || x == data->max_line_length || y == -1
@@ -64,4 +66,3 @@ static void	second_map_check(t_data *data)
 	if (data->multiple_map_count != data->total_char_count)
 		error_handler(data, "Multiple maps");
 }
-

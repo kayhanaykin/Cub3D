@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 15:43:28 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/07 15:15:41 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	main(int ac, char *av[])
 {
 	t_data	data;
 
-	arg_check(ac, av);
 	init(&data);
+	arg_check(&data, ac, av);
 	parser(&data, av[1]);
 	map_control(&data);
 	create_window(&data);
@@ -49,24 +49,26 @@ void	parser(t_data *data, char *av)
 void	init(t_data *data)
 {
 	ft_bzero(data, sizeof(t_data));
-	data->meta_data = ft_calloc(6, sizeof(char *));
+	data->meta_data = NULL;
+	data->meta_data = ft_calloc(7, sizeof(char *));
 	if (!data->meta_data)
 		error_handler(data, "Allocation Error");
+	data->map_data = NULL;
 	data->window_height = 1000;
 	data->window_width = 1440;
 }
 
-void	arg_check(int ac, char *av[])
+void	arg_check(t_data *data, int ac, char *av[])
 {
 	int	len;
 
 	if (ac != 2)
-		error_handler(NULL, "Wrong number of arguments");
+		error_handler(data, "Wrong number of arguments");
 	len = ft_strlen(av[1]);
 	if (len < 5 || av[1][len - 1] != 'b' || av[1][len - 2] != 'u'
 		|| av[1][len - 3] != 'c' || av[1][len - 4] != '.')
-		error_handler(NULL, "Improper file");
+		error_handler(data, "Improper file");
 	if (access(av[1], F_OK | R_OK) != 0)
-		error_handler(NULL, "Non-existing or unreadable file");
+		error_handler(data, "Non-existing or unreadable file");
 	return ;
 }

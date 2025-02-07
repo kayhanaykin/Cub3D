@@ -6,7 +6,7 @@
 #    By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:48:10 by kaykin            #+#    #+#              #
-#    Updated: 2025/02/06 14:28:17 by kaykin           ###   ########.fr        #
+#    Updated: 2025/02/07 15:09:51 by kaykin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ seg: $(OBJS)
 	make -s -C $(DIR_LIBFT)
 	make -s -C $(DIR_LIBMLX) CFLAGS+="$(EXTRA_FLAGS)"
 	$(CC) $(FLAGS) $(FLAGSA) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME)
+	./$(NAME) ./test_maps/test.cub
 
 $(NAME): $(OBJS) 
 	make -s -C $(DIR_LIBFT)

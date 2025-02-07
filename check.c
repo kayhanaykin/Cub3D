@@ -6,56 +6,54 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:09:14 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 11:39:54 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/07 15:59:05 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	error_handler(t_data *data, char *msg)
+void	free_data(t_data *data)
 {
 	int		i;
-	char	*str;
 
 	i = 0;
+	while (data->meta_data[i] && i < 6)
+	{
+		free(data->meta_data[i]);
+		data->meta_data[i] = NULL;
+		i++;
+	}	
+	free(data->meta_data);
+	data->meta_data = NULL;
+	i = 0;
+	while (i < data->line_count)
+	{
+		free(data->map_data[i]);
+		data->map_data[i] = NULL;
+		i++;
+	}
+	free(data->map_data);
+	data->map_data = NULL;
+}
+
+void	error_handler(t_data *data, char *msg)
+{
+	char	*str;
+
 	if (msg != NULL)
 	{
 		ft_putendl_fd("Error", 2);
 		ft_putendl_fd(msg, 2);
 	}
-	while (i < 6)
-		free(data->meta_data[i++]);
-	free(data->meta_data);
-	i = 0;
-	while (i < data->line_count)
-		free(data->map_data[i++]);
-	free(data->map_data);
+	free_data(data);
 	str = get_next_line(data->fd);
 	while (str)
 	{
 		free(str);
+		str = NULL;
 		str = get_next_line(data->fd);
 	}
 	exit(1);
-}
-
-int	check_meta_data_inter(t_data *data, char **words)
-{
-	int	i;
-
-	i = 0;
-	while (i < 6)
-	{
-		if (data->meta_data[i] == NULL)
-			break ;
-		i++;
-	}
-	if (i == 6)
-	{
-		free_words(words);
-		return (1);
-	}
-	return (0);
 }
 
 void	check_meta_data(t_data *data)

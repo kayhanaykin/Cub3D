@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:12:00 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 11:32:40 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:01:19 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,13 @@ void	free_words(char **words)
 	int	i;
 
 	i = 0;
-	while (words[i])
+	while (words && words[i])
 	{
 		free(words[i]);
+		words[i] = NULL;
 		i++;
 	}
 	free(words);
+	words = NULL;
 	return ;
 }

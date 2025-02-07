@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:48:18 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/06 14:48:25 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:02:04 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	get_meta_data(t_data *data, int fd)
 		replace_white_s_with_s(line);
 		words = ft_split(line, ' ');
 		free(line);
+		line = NULL;
 		if (empty_word_check(words))
 			continue ;
 		get_element(data, words);
@@ -85,4 +86,23 @@ void	get_meta_data(t_data *data, int fd)
 	xpm_check(data);
 	check_meta_data(data);
 	get_color(data);
+}
+
+int	check_meta_data_inter(t_data *data, char **words)
+{
+	int	i;
+
+	i = 0;
+	while (i < 6)
+	{
+		if (data->meta_data[i] == NULL)
+			break ;
+		i++;
+	}
+	if (i == 6)
+	{
+		free_words(words);
+		return (1);
+	}
+	return (0);
 }

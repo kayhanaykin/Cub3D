@@ -81,6 +81,13 @@ int		ft_printf(const char *string, ...);
 void	ft_putcharacter_length(char character, int *length);
 void	ft_string(char *args, int *length);
 char	*get_next_line(int fd);
-char	*get_line(char **remainder);
+
+
+int		ft_strlen_gnl(char *stock);
+char	*ft_strdup_gnl(char *stock, int len);
+char	*ft_strjoin_gnl(char *stock, char *buff);
+int		ft_find_nl(char	*stock);
+char	*extract_line(char **stock);
+
 
 #endif
