@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:01:59 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/07 16:25:18 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/08 13:09:15 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	tex_y_coord(t_data *data, double wall_height, int i)
 	}
 	else
 		y_offset = 0;
-	tex_y = (int)((double)i / y_ratio + y_offset)
+	tex_y = (int)(i / y_ratio + y_offset)
 		*(data->text_width[data->side]);
 	return (tex_y);
 }
@@ -36,13 +36,11 @@ double	tex_x_coord(t_data *data)
 {
 	double	wallx;
 	int		tex_x;
-	double	distance;
 
-	distance = data->perpwalldist;
 	if (data->side == E || data->side == W)
-		wallx = data->pos_y + distance * data->raydiry;
+		wallx = data->pos_y + data->perpwalldist * data->raydiry;
 	else
-		wallx = data->pos_x + distance * data->raydirx;
+		wallx = data->pos_x + data->perpwalldist * data->raydirx;
 	wallx -= floor(wallx);
 	tex_x = (int)(wallx * (double)(data->text_width[data->side]));
 	return (tex_x);

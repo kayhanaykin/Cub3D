@@ -6,11 +6,19 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:59:39 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/07 15:34:28 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/08 14:51:16 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static void	perpwalldist_calc(t_data *data)
+{
+	if (data->side == W || data->side == E)
+		data->perpwalldist = (data->sidedistx - data->deltadistx);
+	else
+		data->perpwalldist = (data->sidedisty - data->deltadisty);
+}
 
 void	raycaster(t_data *data)
 {
@@ -35,15 +43,10 @@ void	raycaster(t_data *data)
 				data->side = N;
 		}
 		if (data->map_data[data->mapy][data->mapx] == 'W')
-		{
 			data->hit = 1;
-		}
 	}
 	data->hit = 0;
-	if (data->side == W || data->side == E)
-		data->perpwalldist = (data->sidedistx - data->deltadistx);
-	else
-		data->perpwalldist = (data->sidedisty - data->deltadisty);
+	perpwalldist_calc(data);
 }
 
 void	raydir_unitize(t_data *data)
@@ -97,9 +100,11 @@ void	set_wall(t_data *data)
 		raydir_unitize(data);
 		calculate_step(data);
 		raycaster(data);
-		if (x == data->window_width / 2)
-			data->dist = data->perpwalldist;
 		put_vertical_line(data, x);
 		x++;
-	}
+		if (x == 720)
+		{
+			printf("data->perpwalldist%f\n", data->perpwalldist);
+		}
+	}	
 }
