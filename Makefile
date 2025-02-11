@@ -6,7 +6,7 @@
 #    By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:48:10 by kaykin            #+#    #+#              #
-#    Updated: 2025/02/11 07:46:47 by kaykin           ###   ########.fr        #
+#    Updated: 2025/02/11 20:11:48 by kaykin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,16 +51,16 @@ clear:
 
 re: fclean all
 
-run1: $(NAME) clean
+run1: $(NAME)
 			./$(NAME) ./test_maps/test.cub
 
-run2: $(NAME) clean
+run2: $(NAME)
 			./$(NAME) ./test_maps/square.cub
 
-run3: $(NAME) clean
+run3: $(NAME)
 			./$(NAME) ./test_maps/pdf_big.cub
 
-valg: re
+valg: $(NAME)
 			valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./$(NAME) ./test_maps/test.cub
 	
 .PHONY: all clean fclean re

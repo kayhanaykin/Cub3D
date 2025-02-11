@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:36:45 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/11 08:24:16 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/11 20:11:36 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,20 @@ int	key_press(int key, t_data *data)
 	if (key == ESC)
 	{
 		mlx_destroy_image(data->mlx_ptr, data->img_ptr);
+		data->img_ptr = NULL;
+		mlx_destroy_image(data->mlx_ptr, data->identifier[NO]);
+		data->identifier[NO] = NULL;
+		mlx_destroy_image(data->mlx_ptr, data->identifier[SO]);
+		data->identifier[SO] = NULL;
+		mlx_destroy_image(data->mlx_ptr, data->identifier[WE]);
+		data->identifier[WE] = NULL;
+		mlx_destroy_image(data->mlx_ptr, data->identifier[EA]);
+		data->identifier[EA] = NULL;
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		data->win_ptr = NULL;
+		mlx_destroy_display(data->mlx_ptr);
+		free(data->mlx_ptr);
+		data->mlx_ptr = NULL;
 		error_handler(data, NULL);
 	}
 	if (key == LEFT || key == RIGHT || key == DOWN || key == UP

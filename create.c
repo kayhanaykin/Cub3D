@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:57:51 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/07 16:00:13 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/11 20:01:11 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	close_frame(t_data *data)
 {
 	mlx_destroy_image(data->mlx_ptr, data->img_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	mlx_destroy_display(data->mlx_ptr);
 	error_handler(data, NULL);
 	return (0);
 }
