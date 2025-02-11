@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/08 12:41:37 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/11 08:25:19 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <math.h>
+# include <unistd.h> // Add this include for compatibility with WSL
 
 typedef struct s_data
 {
@@ -90,10 +91,10 @@ enum	e_directions
 };
 
 # define PI 3.14159
-# define UP 119
-# define DOWN 115
-# define LEFT 97
-# define RIGHT 100
+# define UP 'w'
+# define DOWN 's'
+# define LEFT 'a'
+# define RIGHT 'd'
 # define L_ROTATE 65363
 # define R_ROTATE 65361
 # define ESC 65307

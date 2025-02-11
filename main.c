@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/07 15:15:41 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/11 08:27:59 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <unistd.h> // Add this include for compatibility with WSL
 
 int	main(int ac, char *av[])
 {
@@ -54,8 +55,8 @@ void	init(t_data *data)
 	if (!data->meta_data)
 		error_handler(data, "Allocation Error");
 	data->map_data = NULL;
-	data->window_height = 1000;
-	data->window_width = 1440;
+	data->window_height = 600;
+	data->window_width = 800;
 }
 
 void	arg_check(t_data *data, int ac, char *av[])

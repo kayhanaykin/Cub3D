@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:06:54 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/07 13:41:28 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/11 07:40:18 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	atoi_cub3d(t_data *data, const char *str)
 	nb = 0;
 	i = 0;
 	digit_count = 0;
+	(void)data;
 	while (str && str[i])
 	{
 		if (str[i] >= '0' && str[i] <= '9')
