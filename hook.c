@@ -6,13 +6,13 @@
 /*   By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:36:45 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/11 20:11:36 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/11 21:19:15 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	wall_stop(t_data *data, double *temp_x, double *temp_y)
+static void	wall_stop(t_data *data, int *temp_x, int *temp_y)
 {
 	if (data->map_data[(int)*temp_y][(int)*temp_x] != 'W')
 	{
@@ -21,11 +21,11 @@ static void	wall_stop(t_data *data, double *temp_x, double *temp_y)
 	}
 }
 
-static void	move_vertical(t_data *data, int key, double *temp_x, double *temp_y)
+static void	move_vertical(t_data *data, int key, int *temp_x, int *temp_y)
 {
-	float	step_len;
+	int	step_len;
 
-	step_len = 0.1;
+	step_len = 10;
 	if (key == DOWN)
 	{
 		*temp_x -= data->dirx * step_len;
@@ -41,11 +41,11 @@ static void	move_vertical(t_data *data, int key, double *temp_x, double *temp_y)
 
 static void	move_horizontal(t_data *data, int key)
 {
-	double	temp_x;
-	double	temp_y;
-	float	step_len;
+	int	temp_x;
+	int	temp_y;
+	int	step_len;
 
-	step_len = 0.1;
+	step_len = 10;
 	temp_x = data->pos_x;
 	temp_y = data->pos_y;
 	if (key == LEFT)
@@ -63,9 +63,9 @@ static void	move_horizontal(t_data *data, int key)
 
 static void	do_key(int key, t_data *data)
 {
-	double	olddirx;
+	int		olddirx;
 	double	rs;
-	double	oldplanex;
+	int		oldplanex;
 
 	rs = 0.1;
 	move_horizontal(data, key);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:01:59 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/08 13:09:15 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/11 21:29:03 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,41 @@
 int	tex_y_coord(t_data *data, double wall_height, int i)
 {
 	int		tex_y;
-	double	y_ratio;
-	double	y_offset;
+	int		y_ratio;
+	int		y_offset;
 
-	y_ratio = wall_height / (double) data->text_height[data->side];
-	if (data->perpwalldist < 1)
+	y_ratio = wall_height / data->text_height[data->side];
+	if (data->perpwalldist < 100)
 	{
-		y_offset = ((1 - data->perpwalldist) / 2)
+		y_offset = ((100 - data->perpwalldist) / 2)
 			* data->text_height[data->side];
 		y_ratio /= data->perpwalldist;
 	}
 	else
 		y_offset = 0;
-	tex_y = (int)(i / y_ratio + y_offset)
-		*(data->text_width[data->side]);
+	tex_y = (i / y_ratio + y_offset) * (data->text_width[data->side]);
 	return (tex_y);
 }
 
 double	tex_x_coord(t_data *data)
 {
-	double	wallx;
+	int		wallx;
 	int		tex_x;
 
 	if (data->side == E || data->side == W)
-		wallx = data->pos_y + data->perpwalldist * data->raydiry;
+		wallx = data->pos_y * 100 + data->perpwalldist * data->raydiry;
 	else
-		wallx = data->pos_x + data->perpwalldist * data->raydirx;
-	wallx -= floor(wallx);
-	tex_x = (int)(wallx * (double)(data->text_width[data->side]));
-	return (tex_x);
+		wallx = data->pos_x * 100 + data->perpwalldist * data->raydirx;
+	wallx = wallx % 100;
+	tex_x = (wallx * data->text_width[data->side]);
+	return tex_x;
 }
 
 void	put_vertical_line_to_image(t_data *data, int x, int drawstart,
 	int drawend)
 {
 	char	*dst;
-	double	wall_height;
+	int		wall_height;
 	int		tex_x;
 	int		tex_y;
 	int		i;
@@ -74,7 +73,7 @@ void	put_vertical_line(t_data *data, int x)
 	int	drawstart;
 	int	drawend;
 
-	lineheight = (int)(data->window_height / data->perpwalldist);
+	lineheight = data->window_height / data->perpwalldist;
 	drawstart = -lineheight / 2 + data->window_height / 2;
 	drawend = lineheight / 2 + data->window_height / 2;
 	if (drawstart < 0)

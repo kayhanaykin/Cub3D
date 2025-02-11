@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/11 08:25:19 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/11 20:29:09 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,20 @@ typedef struct s_data
 	int		size_line;
 	int		line_count;
 	int		max_line_length;
-	double	pos_x;
-	double	pos_y;
-	double	dirx;
-	double	diry;
-	double	planex;
-	double	planey;
-	double	time;
-	double	oldtime;
-	double	camerax;
-	double	raydirx;
-	double	raydiry;
-	double	sidedistx;
-	double	sidedisty;
-	double	deltadistx;
-	double	deltadisty;
-	double	perpwalldist;
+	int		pos_x;
+	int		pos_y;
+	int		dirx;
+	int		diry;
+	int		planex;
+	int		planey;
+	int		camerax;
+	int		raydirx;
+	int		raydiry;
+	int		sidedistx;
+	int		sidedisty;
+	int		deltadistx;
+	int		deltadisty;
+	int		perpwalldist;
 	int		stepx;
 	int		stepy;
 	int		hit;

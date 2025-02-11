@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flood_fill_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:54:56 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/05 16:17:42 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/11 21:29:43 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@ static void	set_plane_dir(t_data *data, char c)
 {
 	if (c == 'N')
 	{
-		data->planex = 0.66;
+		data->planex = 66;
 		data->planey = 0;
 	}
 	else if (c == 'E')
 	{
 		data->planex = 0;
-		data->planey = 0.66;
+		data->planey = 66;
 	}	
 	else if (c == 'S')
 	{
-		data->planex = -0.66;
+		data->planex = -66;
 		data->planey = 0;
 	}	
 	else if (c == 'W')
 	{
 		data->planex = 0;
-		data->planey = -0.66;
+		data->planey = -66;
 	}
 }
 
@@ -41,21 +41,21 @@ static void	set_start_dir(t_data *data, char c)
 	if (c == 'N')
 	{
 		data->dirx = 0;
-		data->diry = -1;
+		data->diry = -100;
 	}
 	else if (c == 'E')
 	{
-		data->dirx = 1;
+		data->dirx = 100;
 		data->diry = 0;
 	}	
 	else if (c == 'S')
 	{
 		data->dirx = 0;
-		data->diry = 1;
+		data->diry = 100;
 	}	
 	else if (c == 'W')
 	{
-		data->dirx = -1;
+		data->dirx = -100;
 		data->diry = 0;
 	}
 	set_plane_dir(data, c);
@@ -96,8 +96,8 @@ void	possible_char_check(t_data *data)
 		{
 			if (player_pos_finder(data, data->map_data[i][j]))
 			{
-				data->pos_x = j + 0.5f;
-				data->pos_y = i + 0.5f;
+				data->pos_x = j * 100 + 50;
+				data->pos_y = i * 100 + 50;
 			}
 			if (data->map_data[i][j] != '\0' && data->map_data[i][j] != ' ')
 				data->total_char_count++;

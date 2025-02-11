@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:53:41 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/07 16:00:52 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/11 21:41:57 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static void	flood_fill(t_data *data, int x, int y, char c);
 void	map_control(t_data *data)
 {
 	possible_char_check(data);
-	data->map_data[(int)data->pos_y][(int)data->pos_x] = '0';
-	flood_fill(data, data->pos_x, data->pos_y, '0');
+	data->map_data[data->pos_y / 100][data->pos_x / 100] = '0';
+	flood_fill(data, data->pos_x / 100, data->pos_y / 100, '0');
 	second_map_check(data);
 }
 
 static void	flood_fill(t_data *data, int x, int y, char c)
-{	
+{
 	if (border_check(data, x, y) || data->map_data[y][x] == ' ')
 	{
 		if (!(c == '1' || c == 'W'))

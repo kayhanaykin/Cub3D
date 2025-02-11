@@ -6,7 +6,7 @@
 #    By: kaykin <kaykin@student.42istanbul.com.tr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:48:10 by kaykin            #+#    #+#              #
-#    Updated: 2025/02/11 20:11:48 by kaykin           ###   ########.fr        #
+#    Updated: 2025/02/11 21:45:10 by kaykin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,15 +27,15 @@ DIR_LIBMLX	= minilibx-linux
 all: $(NAME)
 
 seg: $(OBJS) 
-	make -s -C $(DIR_LIBFT)
-	make -s -C $(DIR_LIBMLX) CFLAGS+="$(EXTRA_FLAGS)"
-	$(CC) $(FLAGS) $(FLAGSA) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME)
+	@make -s -C $(DIR_LIBFT)
+	@make -s -C $(DIR_LIBMLX) CFLAGS+="$(EXTRA_FLAGS)"
+	@$(CC) $(FLAGS) $(FLAGSA) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME)
 	./$(NAME) ./test_maps/test.cub
 
 $(NAME): $(OBJS) 
-	make -s -C $(DIR_LIBFT)
-	make -s -C $(DIR_LIBMLX) CFLAGS+="$(EXTRA_FLAGS)"
-	$(CC) $(FLAGS) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME) -v
+	@make -s -C $(DIR_LIBFT)
+	@make -s -C $(DIR_LIBMLX) CFLAGS+="$(EXTRA_FLAGS)"
+	@$(CC) $(FLAGS) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME) -v
 
 clean:                                                             
 			rm -f $(OBJS)
@@ -51,17 +51,17 @@ clear:
 
 re: fclean all
 
-run1: $(NAME)
+run1: $(OBJS) 
 			./$(NAME) ./test_maps/test.cub
 
-run2: $(NAME)
+run2: $(OBJS) 
 			./$(NAME) ./test_maps/square.cub
 
-run3: $(NAME)
+run3: $(OBJS) 
 			./$(NAME) ./test_maps/pdf_big.cub
 
-valg: $(NAME)
-			valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./$(NAME) ./test_maps/test.cub
+valg: $(OBJS) 
+			valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) ./test_maps/test.cub
 	
 .PHONY: all clean fclean re
 
