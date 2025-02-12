@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/08 12:41:37 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/12 10:04:29 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ typedef struct s_data
 	double	diry;
 	double	planex;
 	double	planey;
-	double	time;
-	double	oldtime;
 	double	camerax;
 	double	raydirx;
 	double	raydiry;
