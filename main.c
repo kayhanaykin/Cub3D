@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/07 15:15:41 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/10 15:46:02 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	init(t_data *data)
 		error_handler(data, "Allocation Error");
 	data->map_data = NULL;
 	data->window_height = 1000;
-	data->window_width = 1440;
+	data->window_width = 1000;
 }
 
 void	arg_check(t_data *data, int ac, char *av[])

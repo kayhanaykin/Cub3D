@@ -6,7 +6,7 @@
 #    By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:48:10 by kaykin            #+#    #+#              #
-#    Updated: 2025/02/07 15:09:51 by kaykin           ###   ########.fr        #
+#    Updated: 2025/02/12 09:46:17 by kaykin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,12 @@ CC			= cc -g
 FLAGS 		= -Wall -Wextra -Werror 
 FLAGSA 		= -fsanitize=address
 EXTRA_FLAGS = -Wno-deprecated
-SRCS		= check.c  color.c  create.c  flood_fill.c  flood_fill_utils.c  hook.c  main.c  main_utils.c  parser_map.c  parser_meta.c  raycaster.c  raycaster_utils.c
+SRCS		= check.c  color.c  create.c  flood_fill.c  flood_fill_utils.c  \
+				hook.c  main.c  main_utils.c  parser_map.c  parser_meta.c  \
+				raycaster.c  raycaster_utils.c
 OBJS		:= $(SRCS:.c=.o)
 
-FRAMEWORKS	= -lXext -lX11 -lm -lz
+FRAMEWORKS	= -lXext -lX11 -lm
 AR_LIBFT	= libft/libft.a
 AR_LIBMLX	= minilibx-linux/libmlx.a
 DIR_LIBFT	= libft
