@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/12 09:50:23 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 13:52:54 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,23 @@ int	main(int ac, char *av[])
 
 void	parser(t_data *data, char *av)
 {
-	int	fd;
-
-	fd = open(av, O_RDONLY);
-	data->fd = fd;
-	get_meta_data(data, fd);
-	get_map_size(data, fd);
-	close (fd);
-	fd = open(av, O_RDONLY);
-	map_offset(data, fd);
-	get_map_data(data, fd);
+	data->fd = open(av, O_RDONLY);
+	get_meta_data(data, data->fd);
+	get_map_size(data, data->fd);
+	close (data->fd);
+	data->fd = open(av, O_RDONLY);
+	map_offset(data, data->fd);
+	get_map_data(data, data->fd);
 }
 
 void	init(t_data *data)
 {
 	ft_bzero(data, sizeof(t_data));
-	data->meta_data = NULL;
 	data->meta_data = ft_calloc(7, sizeof(char *));
 	if (!data->meta_data)
 		error_handler(data, "Allocation Error");
-	data->map_data = NULL;
-	data->window_height = 1000;
-	data->window_width = 1000;
+	data->window_height = 1080;
+	data->window_width = 1440;
 }
 
 void	arg_check(t_data *data, int ac, char *av[])

@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:09:14 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/07 15:59:05 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 12:07:49 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,15 @@ void	error_handler(t_data *data, char *msg)
 		free(str);
 		str = NULL;
 		str = get_next_line(data->fd);
+	}
+	if (data->mlx_ptr)
+	{
+		mlx_destroy_image(data->mlx_ptr, data->identifier[0]);
+		mlx_destroy_image(data->mlx_ptr, data->identifier[1]);
+		mlx_destroy_image(data->mlx_ptr, data->identifier[2]);
+		mlx_destroy_image(data->mlx_ptr, data->identifier[3]);
+		mlx_destroy_display(data->mlx_ptr);
+		free(data->mlx_ptr);
 	}
 	exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:44:43 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/12 10:04:29 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 11:48:06 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ void	create_image(t_data *data);
 
 //raycaster.c
 void	raycaster(t_data *data);
-void	raydir_unitize(t_data *data);
 void	calculate_step(t_data *data);
 void	set_wall(t_data *data);
 

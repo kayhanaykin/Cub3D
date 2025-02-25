@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:59:39 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/08 14:51:16 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 11:52:37 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,6 @@ void	raycaster(t_data *data)
 	perpwalldist_calc(data);
 }
 
-void	raydir_unitize(t_data *data)
-{
-	double	len;
-
-	len = sqrt((data->raydirx * data->raydirx)
-			+ (data->raydiry * data->raydiry));
-	data->raydirx /= len;
-	data->raydiry /= len;
-}
 
 void	calculate_step(t_data *data)
 {
@@ -97,14 +88,9 @@ void	set_wall(t_data *data)
 		data->raydiry = data->diry + data->planey * data->camerax;
 		data->deltadistx = fabs(1 / data->raydirx);
 		data->deltadisty = fabs(1 / data->raydiry);
-		raydir_unitize(data);
 		calculate_step(data);
 		raycaster(data);
 		put_vertical_line(data, x);
 		x++;
-		if (x == 720)
-		{
-			printf("data->perpwalldist%f\n", data->perpwalldist);
-		}
 	}	
 }

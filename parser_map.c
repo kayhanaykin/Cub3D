@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:49:04 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/07 16:01:54 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 13:55:59 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ static void	skip_empty_line(char **line, int fd)
 		*line = get_next_line(fd);
 		replace_white_s_with_s(*line);
 		if (!all_white_space(*line))
-		{
 			break ;
-		}
 		free(*line);
 		*line = NULL;
 	}
