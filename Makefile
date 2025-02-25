@@ -19,7 +19,7 @@ all: $(NAME)
 $(NAME): $(OBJS) 
 	make -s -C $(DIR_LIBFT)
 	make -s -C $(DIR_LIBMLX) CFLAGS+="$(EXTRA_FLAGS)"
-	$(CC) $(FLAGS) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME) -v
+	$(CC) $(FLAGS) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME)
 
 clean:                                                             
 			rm -f $(OBJS)
@@ -30,19 +30,10 @@ fclean: clean
 			make -C $(DIR_LIBFT) fclean
 			make -C $(DIR_LIBMLX) clean
 
-clear:
-	clear
-
 re: fclean all
 
-run1: $(OBJS)
+run: $(OBJS)
 			./$(NAME) ./test_maps/test.cub
-
-run2: $(OBJS)
-			./$(NAME) ./test_maps/square.cub
-
-run3: $(OBJS)
-			./$(NAME) ./test_maps/pdf_big.cub
 
 valg: re
 			valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \

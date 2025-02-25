@@ -6,28 +6,11 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:44 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/25 16:26:34 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 17:58:40 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// static void	print_map(t_data *data)
-// {
-// 	int i = 0;
-// 	int j;
-// 	while (i < data->line_count)
-// 	{
-// 		j = 0;
-// 		while (j < data->max_line_length)
-// 		{
-// 			printf("%c",data->map_data[i][j]);
-// 			j++;
-// 		}
-// 		printf("\n");
-// 		i++;
-// 	}
-// }
 
 int	main(int ac, char *av[])
 {

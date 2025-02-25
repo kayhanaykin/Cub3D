@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:59:39 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/25 16:56:11 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 18:10:46 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,10 @@ void	raycaster(t_data *data)
 	perpwalldist_calc(data);
 }
 
-
 void	calculate_step(t_data *data)
 {
-	data->mapx = (int)data->pos_x;
-	data->mapy = (int)data->pos_y;
+	data->mapx = floor(data->pos_x);
+	data->mapy = floor(data->pos_y);
 	if (data->raydirx < 0)
 	{
 		data->stepx = -1;
