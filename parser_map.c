@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:49:04 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/25 13:55:59 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 14:04:36 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	get_map_size(t_data *data, int fd)
 		free(line);
 		line = NULL;
 		line = get_next_line(fd);
-		replace_white_s_with_s(line);
 	}
 	data->map_data = malloc (sizeof(char *) * (data->line_count));
 	if (data->map_data == NULL)
