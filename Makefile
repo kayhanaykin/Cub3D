@@ -46,7 +46,7 @@ run3: $(OBJS)
 
 valg: re
 			valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
-			 ./$(NAME) ./test_maps/test.cub
+			./$(NAME) ./test_maps/test.cub
 
 seg: $(OBJS)
 	$(CC) $(FLAGS) $(FLAGSA) $(OBJS) $(AR_LIBFT) $(AR_LIBMLX) $(FRAMEWORKS) -o $(NAME)

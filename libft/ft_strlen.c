@@ -15,14 +15,16 @@
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
+	size_t	j;
 
 	i = 0;
+	j = 0;
 	while (s && s[i])
 	{
 		if (s[i] == '\t')
-			i += 4;
-		else 
-			i++;
+			j += 7;
+		i++;
+		j++;
 	}
-	return (i);
+	return (j);
 }

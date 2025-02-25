@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:54:56 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/05 16:17:42 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 15:16:44 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	player_pos_finder(t_data *data, char c)
 {
 	static int	counter;
 
-	if (c == '0' || c == '1' || c == '\0' || c == ' ')
+	if (c == '0' || c == '1' || c == '\0' || c == ' ' || c == '\f' 
+		|| c == '\r' || c == '\v' || c == '\n')
 		return (0);
 	else if (c == 'N')
 		set_start_dir(data, 'N');
@@ -99,7 +100,9 @@ void	possible_char_check(t_data *data)
 				data->pos_x = j + 0.5f;
 				data->pos_y = i + 0.5f;
 			}
-			if (data->map_data[i][j] != '\0' && data->map_data[i][j] != ' ')
+			if (data->map_data[i][j] != '\0' && data->map_data[i][j] != ' '
+				&& data->map_data[i][j] != '\n' && data->map_data[i][j] != '\f' &&
+				data->map_data[i][j] != '\r' && data->map_data[i][j] != '\v')
 				data->total_char_count++;
 			j++;
 		}
@@ -117,6 +120,10 @@ int	border_check(t_data *data, int x, int y)
 		return (2);
 	else if (data->map_data[y][x] == '\0')
 		return (3);
+	else if (data->map_data[y][x] == ' ' || data->map_data[y][x] == '\f'
+			|| data->map_data[y][x] == '\r' ||	data->map_data[y][x] == '\n'
+			|| data->map_data[y][x] == '\v')
+		return (1);
 	else
 		return (0);
 }

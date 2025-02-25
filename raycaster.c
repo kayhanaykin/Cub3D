@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:59:39 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/25 11:52:37 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 16:56:11 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	calculate_step(t_data *data)
 
 void	set_wall(t_data *data)
 {
-	float	x;
+	int	x;
 
 	x = 0;
 	while (x < data->window_width)

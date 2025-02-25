@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:12:00 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/25 13:59:50 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 16:25:18 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,27 @@ int	is_white_space(char c)
 void	copy_line(char **map_data, char *line, int line_no)
 {
 	int	i;
+	int	j;
+	int k;
 
 	i = 0;
+	k = 0;
 	while (line && line[i])
 	{
-		map_data[line_no][i] = line[i];
-		i++;
+		j = 0;
+		if (line[i] == '\t')
+		{
+			while (j < 8)
+			{
+				map_data[line_no][k++] = ' ';
+				j++;
+			}
+			i++;
+		}
+		else
+		{
+			map_data[line_no][k++] = line[i++];
+		}
 	}
 }
 
@@ -55,7 +70,7 @@ void	replace_white_s_with_s(char *str)
 	while (str && str[i])
 	{
 		if (str[i] == '\f' || str[i] == '\r'
-			|| str[i] == '\v' || str[i] == '\t' || str[i] == '\n')
+			|| str[i] == '\v' || str[i] == '\t'|| str[i] == '\n')
 			str[i] = ' ';
 		i++;
 	}

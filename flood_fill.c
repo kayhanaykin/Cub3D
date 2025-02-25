@@ -6,7 +6,7 @@
 /*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:53:41 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/07 16:00:52 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/25 16:28:06 by kaykin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	map_control(t_data *data)
 
 static void	flood_fill(t_data *data, int x, int y, char c)
 {	
-	if (border_check(data, x, y) || data->map_data[y][x] == ' ')
+	if (border_check(data, x, y))
 	{
 		if (!(c == '1' || c == 'W'))
 			error_handler(data, "Unclosed map");
