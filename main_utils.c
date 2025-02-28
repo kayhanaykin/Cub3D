@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaykin <kaykin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ekaraurg <ekaraurg@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:12:00 by kaykin            #+#    #+#             */
-/*   Updated: 2025/02/25 18:00:39 by kaykin           ###   ########.fr       */
+/*   Updated: 2025/02/28 16:09:44 by ekaraurg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,27 @@ void	copy_line(char **map_data, char *line, int line_no)
 	int	i;
 	int	j;
 	int	k;
+	int	m;
 
 	i = 0;
 	k = 0;
+	m = 0;
 	while (line && line[i])
 	{
 		j = 0;
 		if (line[i] == '\t')
 		{
-			while (j < 8)
+			while (j < (4 - (m % 4)))
 			{
 				map_data[line_no][k++] = ' ';
 				j++;
 			}
+			m += 4 - (m % 4) - 1;
 			i++;
 		}
 		else
-		{
 			map_data[line_no][k++] = line[i++];
-		}
+		m++;
 	}
 }
 
