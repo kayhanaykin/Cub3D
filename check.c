@@ -17,7 +17,7 @@ void	free_data(t_data *data)
 	int		i;
 
 	i = 0;
-	while (data->meta_data[i] && i < 6)
+	while (i < 6)
 	{
 		free(data->meta_data[i]);
 		data->meta_data[i] = NULL;
